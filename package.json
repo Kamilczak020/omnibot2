@@ -1,0 +1,38 @@
+{
+  "name": "omnibot2",
+  "version": "0.0.1",
+  "description": "Omnibot2, rewritten in TypeScript",
+  "main": "index.ts",
+  "repository": "git@gitlab.com:Kamilczak020/omnibot2.git",
+  "author": "Kamil Solecki <kamilczak020@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "chai": "^4.2.0",
+    "date-fns": "^2.8.1",
+    "discord.js": "^11.5.1",
+    "dotenv": "^8.2.0",
+    "inversify": "^5.0.1",
+    "js-yaml": "^3.13.1",
+    "mocha": "^6.2.2",
+    "pg": "^7.14.0",
+    "pg-hstore": "^2.3.3",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^6.5.3",
+    "sequelize": "^5.21.2",
+    "sequelize-typescript": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.5",
+    "@types/inversify": "^2.0.33",
+    "@types/js-yaml": "^3.12.1",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.12.11",
+    "@types/sequelize": "^4.28.7",
+    "@types/uuid": "^3.4.6",
+    "gulp": "^4.0.2",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "tslint": "^5.20.1",
+    "tslint-microsoft-contrib": "^6.2.0",
+    "typescript": "^3.7.2"
+  }
+}
