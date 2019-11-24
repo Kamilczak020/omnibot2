@@ -15,7 +15,7 @@ interface MessageOptions {
 
 interface LoggerOptions {
   format?: string;
-  transport?: NodeJS.WriteStream;
+  transport?: NodeJS.WritableStream;
 }
 
 /**
@@ -88,7 +88,7 @@ export class Logger implements ILogger {
   private formatMessage(message: string, options: MessageOptions & LoggerOptions) {
     const formattedMessage = options.format
       .replace('{level}', options.level)
-      .replace('{timestamp}', formatDate(Date.now(), 'YYYY-MM-DD HH:mm:ss'))
+      .replace('{timestamp}', formatDate(Date.now(), 'yyyy-MM-dd HH:mm:ss'))
       .replace('{message}', message);
 
     return formattedMessage;
