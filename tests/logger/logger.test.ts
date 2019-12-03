@@ -1,10 +1,9 @@
-import { Logger } from '../../src/logger';
+import { Logger } from 'src/logger';
 import { WriteStream } from 'fs';
 import * as chai from 'chai';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
 import 'mocha';
-import Sinon = require('sinon');
 
 chai.use(sinonChai);
 const expect = chai.expect;
@@ -39,7 +38,7 @@ describe('Logger', () => {
 
   describe('logging methods', () => {
     const logger = new Logger();
-    let mockStream: Sinon.SinonStubbedInstance<WriteStream>;
+    let mockStream: sinon.SinonStubbedInstance<WriteStream>;
 
     beforeEach(() => {
       mockStream = sinon.createStubInstance(WriteStream);
