@@ -19,6 +19,7 @@
     "io-ts": "^2.0.1",
     "io-ts-types": "^0.5.2",
     "js-yaml": "^3.13.1",
+    "make-error-cause": "^2.3.0",
     "mocha": "^6.2.2",
     "monocle-ts": "^2.0.0",
     "pg": "^7.14.0",
