@@ -1,16 +1,22 @@
 {
   "extends": [
-    "./tslint.cc.json"
+    "../tslint.json"
   ],
   "rulesDirectory": [
-    "./node_modules/tslint-microsoft-contrib"
+    "../node_modules/tslint-microsoft-contrib"
   ],
   "rules": {
     "mocha-unneeded-done": true,
     "no-banned-terms": true,
     "no-delete-expression": true,
+    "no-unused-expression": false,
+    "triple-equals": false,
+    "no-null-keyword": false,
+    "no-any": false,
+    "strict-boolean-expressions": false,
     "no-for-in": true,
     "no-relative-imports": false,
+    "no-unbound-method": false,
     "no-default-import": false,
     "ordered-imports": false,
     "no-default-export": false,
