@@ -1,8 +1,8 @@
 import { Logger } from '../../src/logger';
+import { WriteStream } from 'fs';
 import * as chai from 'chai';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
-import { WriteStream } from 'fs';
 import 'mocha';
 import Sinon = require('sinon');
 
@@ -57,7 +57,7 @@ describe('Logger', () => {
       expect(mockStream.write.calledOnce).to.be.true;
       expect(mockStream.write.calledWith('[DEBUG] This is a test message')).to.be.true;
     });
-  
+
     it('warn() should call the transport stream with a log message of level WARNING', () => {
       logger.warn('This is a test message', '[{level}] {message}');
       expect(mockStream.write.calledOnce).to.be.true;
