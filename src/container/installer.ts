@@ -9,12 +9,15 @@ import { loadConfig } from 'src/config/loader';
 
 const container = new Container();
 
+/* Services */
 container.bind<IBot>(SERVICE_IDENTIFIER.IBot).to(Bot).inSingletonScope();
 container.bind<Client>(SERVICE_IDENTIFIER.DiscordClient).toConstantValue(new Client());
-container.bind<string>(SERVICE_IDENTIFIER.DiscordToken).toConstantValue(process.env.DISCORD_TOKEN);
 container.bind<ILogger>(SERVICE_IDENTIFIER.ILogger).to(Logger).inSingletonScope();
 
-// configs
+/* Env */
+container.bind<string>(SERVICE_IDENTIFIER.DiscordToken).toConstantValue(process.env.DISCORD_TOKEN);
+
+/* Configs */
 container.bind<IMatcherConfig>(SERVICE_IDENTIFIER.IMatcherConfig).toConstantValue(loadConfig<IMatcherConfig>(TMatcherConfig, 'some/path'));
 
 export default container;
