@@ -2,10 +2,10 @@ import 'reflect-metadata';
 import { Container } from 'inversify';
 import { IBot, Bot } from 'src/core/bot';
 import { ILogger, Logger } from 'src/logger';
-import { SERVICE_IDENTIFIER } from 'src/constants/identifiers';
 import { Client } from 'discord.js';
-import { IMatcherConfig, TMatcherConfig } from 'src/config/models';
 import { loadConfig } from 'src/config/loader';
+import { IMatcherConfig, TMatcherConfig } from 'src/config/models';
+import { CONFIG_IDENTIFIER, CONST_IDENTIFIER, SERVICE_IDENTIFIER } from 'src/constants';
 
 const container = new Container();
 
@@ -15,9 +15,9 @@ container.bind<Client>(SERVICE_IDENTIFIER.DiscordClient).toConstantValue(new Cli
 container.bind<ILogger>(SERVICE_IDENTIFIER.ILogger).to(Logger).inSingletonScope();
 
 /* Env */
-container.bind<string>(SERVICE_IDENTIFIER.DiscordToken).toConstantValue(process.env.DISCORD_TOKEN);
+container.bind<string>(CONST_IDENTIFIER.DiscordToken).toConstantValue(process.env.DISCORD_TOKEN);
 
 /* Configs */
-container.bind<IMatcherConfig>(SERVICE_IDENTIFIER.IMatcherConfig).toConstantValue(loadConfig<IMatcherConfig>(TMatcherConfig, 'some/path'));
+container.bind<IMatcherConfig>(CONFIG_IDENTIFIER.IMatcherConfig).toConstantValue(loadConfig<IMatcherConfig>(TMatcherConfig, 'some/path'));
 
 export default container;
