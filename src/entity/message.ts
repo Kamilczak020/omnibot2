@@ -12,6 +12,9 @@ export class MessageEntity {
   public id: string;
 
   @Column()
+  public messageId: string;
+
+  @Column()
   public body: string;
 
   @Column()
