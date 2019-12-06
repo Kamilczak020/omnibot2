@@ -1,7 +1,15 @@
 import { IEntityDataMapper } from './base/dataMapper';
 import { MessageEntity, MessageDTO } from 'src/entity';
 
+/**
+ * A MessageEntity data mapper, mapping between Message Entity and its' DTO
+ */
 export class MessageDataMapper implements IEntityDataMapper<MessageDTO, MessageEntity> {
+
+  /**
+   * Returns a message DTO given a message Entity
+   * @param entity Message entity
+   */
   public toDomain(entity: MessageEntity): MessageDTO {
     return {
       id: entity.id,
@@ -13,6 +21,10 @@ export class MessageDataMapper implements IEntityDataMapper<MessageDTO, MessageE
     };
   }
 
+  /**
+   * Returns a message Entity given a message DTO
+   * @param domain Message DTO
+   */
   public toEntity(domain: MessageDTO): MessageEntity {
     const entity = new MessageEntity();
     entity.id = domain.id;
