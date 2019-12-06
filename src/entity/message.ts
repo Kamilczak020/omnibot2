@@ -3,6 +3,9 @@ import { DomainEntity } from './domainEntity';
 
 export type MessageDTO = DomainEntity<MessageEntity>;
 
+/**
+ * Class representing a discord message entity in the database.
+ */
 @Entity({ name: 'Message' })
 export class MessageEntity {
   @PrimaryGeneratedColumn('uuid')
