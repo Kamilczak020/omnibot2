@@ -1,4 +1,4 @@
-import { GenericRepository, IRepository } from './base/repository';
+import { GenericRepository, IRepository } from 'src/repository/base';
 import { MessageDTO, MessageEntity } from 'src/entity';
 import { injectable, inject } from 'inversify';
 import { Repository as TypeOrmRepository } from 'typeorm';
