@@ -1,1 +1,2 @@
-export { IMatcherConfig, TMatcherConfig, TMatchingRule } from './matcherConfig';
+export * from './botConfig';
+export * from './connectionProviderConfig';
