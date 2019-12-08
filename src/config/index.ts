@@ -4,9 +4,11 @@ import { readFileSync, existsSync } from 'fs';
 import { ConfigurationError, NotFoundError } from 'src/error';
 import { DEFAULT_SAFE_SCHEMA, safeLoad, Schema } from 'js-yaml';
 import { regexpType } from './regexp';
+import { envType } from './env';
 
 export const CONFIG_SCHEMA = Schema.create([DEFAULT_SAFE_SCHEMA], [
   regexpType,
+  envType,
 ]);
 
 export function loadConfig<T>(codec: t.Type<T>, path: string): T {
