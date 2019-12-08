@@ -1,6 +1,7 @@
 import { Message as DiscordMessage, Client as DiscordClient } from 'discord.js';
-import { SERVICE_IDENTIFIER } from 'src/constants/identifiers';
+import { SERVICE_IDENTIFIER, CONFIG_IDENTIFIER } from 'src/constants';
 import { inject, injectable } from 'inversify';
+import { IBotConfig } from 'src/config/models/botConfig';
 import { ILogger } from 'src/logger';
 import { Subject } from 'rxjs';
 
@@ -17,8 +18,8 @@ export class Bot implements IBot {
   @inject(SERVICE_IDENTIFIER.DiscordClient)
   private client: DiscordClient;
 
-  @inject(SERVICE_IDENTIFIER.DiscordToken)
-  private readonly token: string;
+  @inject(CONFIG_IDENTIFIER.IBotConfig)
+  private readonly config: IBotConfig;
 
   private incoming: Subject<DiscordMessage>;
 
@@ -39,7 +40,7 @@ export class Bot implements IBot {
     this.client.on('ready', () => this.logger.info('Discord listener is ready.'));
     this.client.on('message', (message) => this.incoming.next(message));
 
-    await this.client.login(this.token);
+    await this.client.login(this.config.token);
     await this.client.user.setPresence({ game: { name: '!listcommands' }, status: 'online' });
   }
 
