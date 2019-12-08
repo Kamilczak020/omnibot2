@@ -1,3 +1,4 @@
 export const CONFIG_IDENTIFIER = {
-  IMatcherConfig: Symbol.for('IMatcherConfig'),
+  IConnectionProviderConfig: Symbol.for('IConnectionProviderConfig'),
+  IBotConfig: Symbol.for('IBotConfig'),
 };
