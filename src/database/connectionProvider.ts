@@ -4,6 +4,7 @@ import { IConnectionProviderConfig } from 'src/config/models/connectionProviderC
 import { CONFIG_IDENTIFIER } from 'src/constants';
 import { DatabaseError } from 'src/error';
 import { MessageEntity } from 'src/entity';
+import { isNil } from 'src/util';
 
 export interface IConnectionProvider {
   getConnection(): Promise<Connection>;
@@ -29,11 +30,11 @@ export class ConnectionProvider implements IConnectionProvider {
   }
 
   public async getConnection(): Promise<Connection> {
-    if (this.connection === null) {
+    if (isNil(this.connection)) {
       try {
         await this.connect();
       } catch (error) {
-        throw new DatabaseError('Cannot establish a connection to the database.', error);
+        throw new DatabaseError('Cannot establish a connection to the database.');
       }
     }
 
