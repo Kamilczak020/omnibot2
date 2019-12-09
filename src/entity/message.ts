@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { DomainEntity } from './domainEntity';
+import { isNil } from 'src/util';
 
 export type MessageDTO = DomainEntity<MessageEntity>;
 
@@ -28,4 +29,14 @@ export class MessageEntity {
 
   @Column()
   public timestamp: Date;
+
+  public constructor(properties?: MessageDTO) {
+    this.id = properties?.id;
+    this.messageId = properties?.messageId;
+    this.body = properties?.body;
+    this.author = properties?.author;
+    this.channel = properties?.channel;
+    this.guild = properties?.guild;
+    this.timestamp = properties?.timestamp;
+  }
 }
