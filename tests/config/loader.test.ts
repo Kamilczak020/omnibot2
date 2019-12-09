@@ -7,7 +7,7 @@ import 'mocha';
 chai.use(sinonChai);
 const expect = chai.expect;
 
-import { loadConfig } from 'src/config/loader';
+import { loadConfig } from 'src/config';
 import { mockConfig, invalidMockConfig } from './mockConfig';
 import { IMockConfig, TMockConfig } from './mockConfigSchema';
 import { NotFoundError, ConfigurationError } from 'src/error';
@@ -22,8 +22,8 @@ describe('Config loader', () => {
         .returns(mockConfig);
 
       sandbox.stub(fs, 'existsSync')
-      .withArgs('foo.yaml')
-      .returns(true);
+        .withArgs('foo.yaml')
+        .returns(true);
     });
 
     afterEach(() => {
