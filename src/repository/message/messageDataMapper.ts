@@ -27,15 +27,6 @@ export class MessageDataMapper implements IEntityDataMapper<MessageDTO, MessageE
    * @param domain Message DTO
    */
   public toEntity(domain: MessageDTO): MessageEntity {
-    const entity = new MessageEntity();
-    entity.id = domain.id;
-    entity.messageId = domain.messageId;
-    entity.body = domain.body;
-    entity.author = domain.author;
-    entity.channel = domain.channel;
-    entity.guild = domain.guild;
-    entity.timestamp = domain.timestamp;
-
-    return entity;
+    return new MessageEntity(domain);
   }
 }
