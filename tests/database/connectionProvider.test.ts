@@ -7,17 +7,18 @@ chai.use(sinonChai);
 const expect = chai.expect;
 
 import * as typeorm from 'typeorm';
-import { ConnectionProvider } from 'src/database';
+import { ConnectionProvider, IConnectionProvider } from 'src/database';
 import { DatabaseError } from 'src/error';
 
 describe('Database Connection Provider', () => {
   const sandbox = sinon.createSandbox();
-  const provider = new ConnectionProvider();
 
+  let provider: IConnectionProvider;
   let mockConnection: any;
   let createConnectionStub: sinon.SinonStub;
 
   beforeEach(() => {
+    provider = new ConnectionProvider();
     provider['config'] = { type: 'postgres', host: 'test', port: 1, username: 'test', password: 'test', database: 'test' };
     mockConnection = sandbox.createStubInstance(typeorm.Connection);
   });
@@ -36,6 +37,13 @@ describe('Database Connection Provider', () => {
       const connection = await provider.getConnection();
       expect(createConnectionStub.calledOnce).to.be.true;
       expect(connection).to.be.equal(mockConnection);
+    });
+
+    it('Should return a saved connection when ran twice', async () => {
+      const connection1 = await provider.getConnection();
+      const connection2 = await provider.getConnection();
+      expect(createConnectionStub.calledOnce).to.be.true;
+      expect(connection1).to.be.equal(connection2);
     });
   });
 
