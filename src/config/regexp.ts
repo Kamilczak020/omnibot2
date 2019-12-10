@@ -1,5 +1,4 @@
 import { Type as YamlType } from 'js-yaml';
-import { isNil } from 'lodash';
 
 import { InvalidArgumentError } from 'src/error';
 
@@ -11,11 +10,12 @@ export const regexpType = new YamlType('!regexp', {
     return REGEXP_REGEXP.test(value);
   },
   construct(value: string): RegExp {
-    const match = REGEXP_REGEXP.exec(value);
-    if (isNil(match)) {
-      throw new InvalidArgumentError('invalid regexp');
+    try {
+      const match = REGEXP_REGEXP.exec(value);
+      const [/* input */, expr, flags] = Array.from(match);
+      return new RegExp(expr, flags);
+    } catch (error) {
+      throw new InvalidArgumentError('Invalid regexp');
     }
-    const [/* input */, expr, flags] = Array.from(match);
-    return new RegExp(expr, flags);
   },
 });
