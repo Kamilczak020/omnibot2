@@ -7,37 +7,27 @@ const expect = chai.expect;
 
 import { regexpAnyConfig, regexpFirstWordConfig, stringAnyConfig, stringFirstWordConfig, config } from './mockConfig';
 import { Matcher } from 'src/service/matcher';
-import { MessageDTO } from 'src/entity';
+import { baseMessage } from './mockMessage';
 import { MatchingError } from 'src/error';
 
 describe('Matcher', () => {
-  const matcher = new Matcher();
-  const message: MessageDTO = {
-    id: '1',
-    messageId: '1',
-    body: 'foo',
-    channel: 'test',
-    guild: 'test',
-    author: 'test',
-    timestamp: new Date(),
-  };
-
   describe('Regexp test with \'any\' strategy', () => {
-    matcher['config'] = regexpAnyConfig;
+    const matcher = new Matcher(regexpAnyConfig);
 
     it('Should match when body is a single-word string', () => {
+      const message = { ...baseMessage, ...{ body: 'foo' } };
       const result = matcher.match(message);
-      expect(result).to.be.equal([message, { handler: 'anyRegexpHandler', parser: 'anyRegexpParser' }]);
+      expect(result).to.deep.equal([message, { handler: 'anyRegexpHandler', parser: 'anyRegexpParser' }]);
     });
 
     it('Should match when body is a multi-word string', () => {
-      message.body = 'is foo amazing';
+      const message = { ...baseMessage, ...{ body: 'is foo amazing' } };
       const result = matcher.match(message);
-      expect(result).to.be.equal([message, { handler: 'anyRegexpHandler', parser: 'anyRegexpParser' }]);
+      expect(result).to.deep.equal([message, { handler: 'anyRegexpHandler', parser: 'anyRegexpParser' }]);
     });
 
     it('Should throw a MatchingError when there is no match', () => {
-      message.body = 'this should throw';
+      const message = { ...baseMessage, ...{ body: 'this should throw' } };
       try {
         matcher.match(message);
       } catch (error) {
@@ -47,15 +37,16 @@ describe('Matcher', () => {
   });
 
   describe('Regexp test with \'first-word\' strategy', () => {
-    matcher['config'] = regexpFirstWordConfig;
+    const matcher = new Matcher(regexpFirstWordConfig);
+
     it('Should match on first word', () => {
-      message.body = 'bar is a first word';
+      const message = { ...baseMessage, ...{ body: 'bar is a first word' } };
       const result = matcher.match(message);
-      expect(result).to.be.equal([message, { handler: 'firstWordRegexpHandler', parser: 'firstWordRegexpParser' }]);
+      expect(result).to.deep.equal([message, { handler: 'firstWordRegexpHandler', parser: 'firstWordRegexpParser' }]);
     });
 
     it('Should throw a MatchingError when there is no match on first word', () => {
-      message.body = 'not first bar anymore';
+      const message = { ...baseMessage, ...{ body: 'nor first bar anymore' } };
       try {
         matcher.match(message);
       } catch (error) {
@@ -65,21 +56,22 @@ describe('Matcher', () => {
   });
 
   describe('String test with \'any\' strategy', () => {
-    matcher['config'] = stringAnyConfig;
+    const matcher = new Matcher(stringAnyConfig);
+
     it('Should match when body is a single-word string', () => {
-      message.body = 'boo';
+      const message = { ...baseMessage, ...{ body: 'boo' } };
       const result = matcher.match(message);
-      expect(result).to.be.equal([message, { handler: 'anyStringHandler', parser: 'anyStringParser' }]);
+      expect(result).to.deep.equal([message, { handler: 'anyStringHandler', parser: 'anyStringParser' }]);
     });
 
     it('Should match when body is a multi-word string', () => {
-      message.body = 'is boo amazing';
+      const message = { ...baseMessage, ...{ body: 'is boo amazing' } };
       const result = matcher.match(message);
-      expect(result).to.be.equal([message, { handler: 'anyStringHandler', parser: 'anyStringParser' }]);
+      expect(result).to.deep.equal([message, { handler: 'anyStringHandler', parser: 'anyStringParser' }]);
     });
 
     it('Should throw a MatchingError when there is no match', () => {
-      message.body = 'this should throw';
+      const message = { ...baseMessage, ...{ body: 'this should throw' } };
       try {
         matcher.match(message);
       } catch (error) {
@@ -89,15 +81,16 @@ describe('Matcher', () => {
   });
 
   describe('String test with \'first-word\' strategy', () => {
-    matcher['config'] = stringFirstWordConfig;
+    const matcher = new Matcher(stringFirstWordConfig);
+
     it('Should match on first word', () => {
-      message.body = 'far is a first word';
+      const message = { ...baseMessage, ...{ body: 'far is a first word' } };
       const result = matcher.match(message);
-      expect(result).to.be.equal([message, { handler: 'firstWordStringHandler', parser: 'firstWordStringParser' }]);
+      expect(result).to.deep.equal([message, { handler: 'firstWordStringHandler', parser: 'firstWordStringParser' }]);
     });
 
     it('Should throw a MatchingError when there is no match on first word', () => {
-      message.body = 'not first far anymore';
+      const message = { ...baseMessage, ...{ body: 'not first far anymore' } };
       try {
         matcher.match(message);
       } catch (error) {
@@ -107,8 +100,9 @@ describe('Matcher', () => {
   });
 
   it('Should throw a MatchingError when message is empty', () => {
-    matcher['config'] = config;
-    message.body = '';
+    const matcher = new Matcher(config);
+    const message = baseMessage;
+
     try {
       matcher.match(message);
     } catch (error) {
