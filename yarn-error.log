@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js run coverage
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add loadash.isempty
 
 PATH: 
   C:\Users\Kamil\Desktop\cmder\bin;C:\Users\Kamil\Desktop\cmder\vendor\bin;C:\Users\Kamil\Desktop\cmder\vendor\conemu-maximus5\ConEmu\Scripts;C:\Program Files\nodejs\node_modules\npm\node_modules\npm-lifecycle\node-gyp-bin;C:\Users\Kamil\AppData\Roaming\npm\node_modules\windows-build-tools\node_modules\bin;C:\Users\Kamil\AppData\Roaming\npm\node_modules\.bin;C:\Users\Kamil\Desktop\cmder\bin;C:\Users\Kamil\Desktop\cmder\vendor\conemu-maximus5\ConEmu\Scripts;C:\Users\Kamil\Desktop\cmder\vendor\conemu-maximus5;C:\Users\Kamil\Desktop\cmder\vendor\conemu-maximus5\ConEmu;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\DMIX;c:\Program Files (x86)\Microsoft SQL Server\110\Tools\Binn\c:\Program Files\Microsoft SQL Server\110\Tools\Binn\;c:\Program Files\Microsoft SQL Server\110\DTS\Binn\;C:\Users\Kamil\.dnx\bin;C:\Program Files\Microsoft DNX\Dnvm\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Users\Kamil\AppData\Local\atom\app-1.17.2\resources\cli;C:\Users\Kamil\AppData\Local\atom\app-1.19.0\resources\cli;C:\PostgreSQL\pg10\binC:\Program Files\dotnet\;C:\Program Files (x86)\Yarn\bin\;C:\sqlite;C:\Program Files\Git\cmd;C:\Program Files (x86)\Microsoft VS Code\bin;C:\Program Files (x86)\Microsoft VS Code\bin;C:\Users\Kamil\AppData\Roaming\npm;C:\Users\Kamil\.dotnet\tools;C:\Users\Kamil\AppData\Local\Yarn\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\share\vim\vim74;C:\Users\Kamil\Desktop\cmder\;C:\Users\Kamil\AppData\Roaming\npm\node_modules;C:\Program Files\Docker Toolbox;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\PuTTY\;C:\Program Files\nodejs\;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\HaxeToolkit\haxe\;C:\HaxeToolkit\neko;C:\Users\Kamil\AppData\Local\Keybase;C:\Users\Kamil\AppData\Local\Programs\Python\Python37-32;C:\Users\Kamil\AppData\Local\Programs\Python\Python37-32\Scripts;C:\Program Files\dotnet;C:\Users\Kamil\AppData\Local\Programs\Python\Python37-32\Scripts\;C:\Users\Kamil\AppData\Local\Programs\Python\Python37-32\;C:\Python27\;C:\Program Files\nodejs\node_modules\npm\node_modules\npm-lifecycle\node-gyp-bin;C:\Users\Kamil\AppData\Roaming\npm\node_modules\windows-build-tools\node_modules\.bin;C:\Users\Kamil\AppData\Roaming\npm\node_modules\.bin;C:\Users\Kamil\Desktop\cmder\bin;C:\Users\Kamil\Desktop\cmder\vendor\conemu-maximus5\ConEmu\Scripts;C:\Users\Kamil\Desktop\cmder\vendor\conemu-maximus5;C:\Users\Kamil\Desktop\cmder\vendor\conemu-maximus5\ConEmu;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\DMIX;c:\Program Files (x86)\Microsoft SQL Server\110\Tools\Binn\;c:\Program Files\Microsoft SQL Server\110\Tools\Binn\;c:\Program Files\Microsoft SQL Server\110\DTS\Binn\;C:\Users\Kamil\.dnx\bin;C:\Program Files\Microsoft DNX\Dnvm\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Users\Kamil\AppData\Local\atom\app-1.17.2\resources\cli;C:\Users\Kamil\AppData\Local\atom\app-1.19.0\resources\cli;C:\PostgreSQL\pg10\bin;C:\Program Files\nodejs\;C:\Program Files\dotnet\;C:\Program Files (x86)\Yarn\bin\;C:\MinGW\bin;C:\Users\Kamil\AppData\Local\Programs\Python\Python36-32;C:\sqlite;C:\Program Files\Git\cmd;C:\Program Files (x86)\Microsoft VS Code\bin;C:\Users\Kamil\AppData\Local\Programs\Python\Python36-32\Scripts\;C:\Users\Kamil\AppData\Local\Programs\Python\Python36-32\;C:\Program Files (x86)\Microsoft VS Code\bin;C:\Users\Kamil\.dotnet\tools;C:\Users\Kamil\AppData\Local\Yarn\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\share\vim\vim74;C:\Users\Kamil\Desktop\cmder\;C:\Users\Kamil\AppData\Roaming\npm\node_modules;C:\Program Files\Docker Toolbox;C:\Users\Kamil\AppData\Roaming\npm;C:\Users\Kamil\AppData\Local\Keybase;C:\Users\Kamil\AppData\Local\Keybase\;C:\Users\Kamil\Desktop\cmder\vendor\git-for-windows\cmd;C:\Users\Kamil\Desktop\cmder\vendor\git-for-windows\mingw64\bin;C:\Users\Kamil\Desktop\cmder\vendor\git-for-windows\usr\bin;C:\Users\Kamil\Desktop\cmder
@@ -14,12 +14,17 @@ Platform:
   win32 x64
 
 Trace: 
-  SyntaxError: C:\webdev\omnibot2\package.json: Unexpected token } in JSON at position 546
-      at JSON.parse (<anonymous>)
-      at C:\Program Files (x86)\Yarn\lib\cli.js:1130:59
-      at Generator.next (<anonymous>)
-      at step (C:\Program Files (x86)\Yarn\lib\cli.js:98:30)
-      at C:\Program Files (x86)\Yarn\lib\cli.js:109:13
+  Error: https://registry.yarnpkg.com/loadash.isempty: Not found
+      at Request.params.callback [as _callback] (C:\Program Files (x86)\Yarn\lib\cli.js:65327:18)
+      at Request.self.callback (C:\Program Files (x86)\Yarn\lib\cli.js:133155:22)
+      at Request.emit (events.js:189:13)
+      at Request.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:134138:10)
+      at Request.emit (events.js:189:13)
+      at IncomingMessage.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:134058:12)
+      at Object.onceWrapper (events.js:277:13)
+      at IncomingMessage.emit (events.js:194:15)
+      at endReadableNT (_stream_readable.js:1125:12)
+      at process._tickCallback (internal/process/next_tick.js:63:19)
 
 npm manifest: 
   {
@@ -41,6 +46,15 @@ npm manifest:
       "reporter": [
         "html"
       ],
+      "all": true,
+      "include": [
+        "src/**/*.ts"
+      ],
+      "exclude": [
+        "tests/*",
+        "src/config/models/**/*.ts",
+        "src/container/**/*.ts"
+      ]
     },
     "dependencies": {
       "chai": "^4.2.0",
