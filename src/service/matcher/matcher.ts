@@ -11,15 +11,20 @@ export interface IMatcher {
 
 @injectable()
 export class Matcher implements IMatcher {
-  @inject(CONFIG_IDENTIFIER.IMatcherConfig)
-  private config: IMatcherConfig;
+  private readonly config: IMatcherConfig;
+
+  public constructor(
+    @inject(CONFIG_IDENTIFIER.IMatcherConfig) config: IMatcherConfig,
+  ) {
+    this.config = config;
+  }
 
   public match(message: MessageDTO): [MessageDTO, IMatchingContext] {
     if (isEmpty(message.body)) {
       throw new MatchingError('Cannot match an empty message body.');
     }
 
-    this.config.rules.forEach((rule) => {
+    for (const rule of this.config.rules) {
       if (rule.test instanceof RegExp) {
         if (this.matchRegexpWithStrategy(message.body, rule.test, rule.strategy)) {
           return [message, rule.context];
@@ -29,7 +34,7 @@ export class Matcher implements IMatcher {
           return [message, rule.context];
         }
       }
-    });
+    }
 
     throw new MatchingError('Message did not match with anything.');
   }
@@ -51,7 +56,7 @@ export class Matcher implements IMatcher {
   private matchStringWithStrategy(body: string, test: string, strategy: 'first-word' | 'any'): boolean {
     switch (strategy) {
       case 'any': {
-        return body === test;
+        return body.indexOf(test) > -1;
       }
       case 'first-word': {
         return body.split(' ')[0] === test;
