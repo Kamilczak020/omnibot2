@@ -2,6 +2,7 @@ import { IEntityDataMapper } from './dataMapper';
 import { injectable, unmanaged } from 'inversify';
 import { Repository as TypeOrmRepository } from 'typeorm';
 import { DomainEntity } from 'src/entity';
+import { DatabaseError } from 'src/error';
 
 export interface IRepository<T> {
   getAll(): Promise<Array<T>>;
@@ -12,8 +13,8 @@ export interface IRepository<T> {
 
 @injectable()
 export class GenericRepository<TDomainEntity extends DomainEntity<TDalEntity>, TDalEntity> implements IRepository<TDomainEntity> {
-  private readonly _repository: TypeOrmRepository<TDalEntity>;
-  private readonly _dataMapper: IEntityDataMapper<TDomainEntity, TDalEntity>;
+  protected readonly _repository: TypeOrmRepository<TDalEntity>;
+  protected readonly _dataMapper: IEntityDataMapper<TDomainEntity, TDalEntity>;
 
   public constructor(
     @unmanaged() repository: TypeOrmRepository<TDalEntity>,
@@ -28,8 +29,12 @@ export class GenericRepository<TDomainEntity extends DomainEntity<TDalEntity>, T
    * @returns An array of database records
    */
   public async getAll(): Promise<Array<TDomainEntity>> {
-    const entities = await this._repository.find();
-    return entities.map((e) => this._dataMapper.toDomain(e));
+    try {
+      const entities = await this._repository.find();
+      return entities.map((e) => this._dataMapper.toDomain(e));
+    } catch (error) {
+      throw new DatabaseError('Error while getting entities from the database.');
+    }
   }
 
   /**
@@ -38,8 +43,12 @@ export class GenericRepository<TDomainEntity extends DomainEntity<TDalEntity>, T
    * @returns A record from the database
    */
   public async getOneById(id: string): Promise<TDomainEntity> {
-    const entity = await this._repository.findOne({ where: { id } });
-    return this._dataMapper.toDomain(entity);
+    try {
+      const entity = await this._repository.findOne({ where: { id } });
+      return this._dataMapper.toDomain(entity);
+    } catch (error) {
+      throw new DatabaseError('Error while getting entities from the database.');
+    }
   }
 
   /**
@@ -47,8 +56,12 @@ export class GenericRepository<TDomainEntity extends DomainEntity<TDalEntity>, T
    * @param entities entity instances to remove
    */
   public async remove(entities: Array<TDomainEntity>): Promise<void> {
-    const dalEntities = entities.map((e) => this._dataMapper.toEntity(e));
-    await this._repository.remove(dalEntities);
+    try {
+      const dalEntities = entities.map((e) => this._dataMapper.toEntity(e));
+      await this._repository.remove(dalEntities);
+    } catch (error) {
+      throw new DatabaseError('Error while getting entities from the database.');
+    }
   }
 
   /**
@@ -56,7 +69,11 @@ export class GenericRepository<TDomainEntity extends DomainEntity<TDalEntity>, T
    * @param entities entity instances to insert
    */
   public async insert(entities: Array<TDomainEntity>): Promise<void> {
-    const dalEntities = entities.map((e) => this._dataMapper.toEntity(e));
-    await this._repository.insert(dalEntities);
+    try {
+      const dalEntities = entities.map((e) => this._dataMapper.toEntity(e));
+      await this._repository.insert(dalEntities);
+    } catch (error) {
+      throw new DatabaseError('Error while getting entities from the database.');
+    }
   }
 }
