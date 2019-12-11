@@ -4,6 +4,6 @@ export class DatabaseError extends BaseError {
   public constructor(message: string, cause?: BaseError) {
     super(message, cause);
 
-    this.name = 'ConfigurationError';
+    this.name = 'DatabaseError';
   }
 }

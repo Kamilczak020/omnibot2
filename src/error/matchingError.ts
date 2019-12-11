@@ -1,9 +1,9 @@
 import { BaseError } from 'make-error-cause';
 
-export class ConfigurationError extends BaseError {
+export class MatchingError extends BaseError {
   public constructor(message: string, cause?: BaseError) {
     super(message, cause);
 
-    this.name = 'ConfigurationError';
+    this.name = 'MatchingError';
   }
 }
