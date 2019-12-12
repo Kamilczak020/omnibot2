@@ -25,13 +25,15 @@ export class Matcher implements IMatcher {
     }
 
     for (const rule of this.config.rules) {
-      if (rule.test instanceof RegExp) {
-        if (this.matchRegexpWithStrategy(message.body, rule.test, rule.strategy)) {
-          return [message, rule.context];
-        }
-      } else {
-        if (this.matchStringWithStrategy(message.body, rule.test, rule.strategy)) {
-          return [message, rule.context];
+      for (const test of rule.tests) {
+        if (test instanceof RegExp) {
+          if (this.matchRegexpWithStrategy(message.body, test, rule.strategy)) {
+            return [message, rule.context];
+          }
+        } else {
+          if (this.matchStringWithStrategy(message.body, test, rule.strategy)) {
+            return [message, rule.context];
+          }
         }
       }
     }

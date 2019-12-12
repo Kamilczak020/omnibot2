@@ -14,7 +14,7 @@ export const TMachingContext = t.type({
 });
 
 export const TMatchingRule = t.type({
-  test: t.union([t.string, regexp]),
+  tests: t.array(t.union([t.string, regexp])),
   strategy: t.keyof({
     ['first-word']: undefined,
     ['any']: undefined,
