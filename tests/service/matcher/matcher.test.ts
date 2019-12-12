@@ -7,7 +7,7 @@ const expect = chai.expect;
 
 import { regexpAnyConfig, regexpFirstWordConfig, stringAnyConfig, stringFirstWordConfig, config } from './mockConfig';
 import { Matcher } from 'src/service/matcher';
-import { baseMessage } from './mockMessage';
+import { baseMessage } from 'tests/service/mockMessage';
 import { MatchingError } from 'src/error';
 
 describe('Matcher', () => {

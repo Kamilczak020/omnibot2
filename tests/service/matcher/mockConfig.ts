@@ -1,4 +1,4 @@
-import { IMatcherConfig } from 'src/config/models';
+import { IMatcherConfig } from 'src/config/matcher';
 
 export const regexpAnyConfig: IMatcherConfig = {
   name: 'regexpAnyMatcher',
