@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { createConnection, Connection } from 'typeorm';
-import { IConnectionProviderConfig } from 'src/config/models/connectionProviderConfig';
+import { IConnectionProviderConfig } from 'src/config/database';
 import { CONFIG_IDENTIFIER } from 'src/constants';
 import { DatabaseError } from 'src/error';
 import { MessageEntity } from 'src/entity';
