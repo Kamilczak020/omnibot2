@@ -3,7 +3,7 @@ import { IMatcherConfig } from 'src/config/models';
 export const regexpAnyConfig: IMatcherConfig = {
   name: 'regexpAnyMatcher',
   rules: [{
-    test: /foo/,
+    tests: [/foo/],
     strategy: 'any',
     context: {
       handler: 'anyRegexpHandler',
@@ -15,7 +15,7 @@ export const regexpAnyConfig: IMatcherConfig = {
 export const regexpFirstWordConfig: IMatcherConfig = {
   name: 'regexpFirstWordMatcher',
   rules: [{
-    test: /bar/,
+    tests: [/bar/],
     strategy: 'first-word',
     context: {
       handler: 'firstWordRegexpHandler',
@@ -27,7 +27,7 @@ export const regexpFirstWordConfig: IMatcherConfig = {
 export const stringAnyConfig: IMatcherConfig = {
   name: 'stringAnyMatcher',
   rules: [{
-    test: 'boo',
+    tests: ['boo'],
     strategy: 'any',
     context: {
       handler: 'anyStringHandler',
@@ -39,7 +39,7 @@ export const stringAnyConfig: IMatcherConfig = {
 export const stringFirstWordConfig: IMatcherConfig = {
   name: 'stringAnyMatcher',
   rules: [{
-    test: 'far',
+    tests: ['far'],
     strategy: 'first-word',
     context: {
       handler: 'firstWordStringHandler',
@@ -51,28 +51,28 @@ export const stringFirstWordConfig: IMatcherConfig = {
 export const config: IMatcherConfig = {
   name: 'mockMatcher',
   rules: [{
-    test: /foo/,
+    tests: [/foo/],
     strategy: 'any',
     context: {
       handler: 'anyRegexpHandler',
       parser: 'anyRegexpParser',
     },
   }, {
-    test: /bar/,
+    tests: [/bar/],
     strategy: 'first-word',
     context: {
       handler: 'firstWordRegexpHandler',
       parser: 'firstWordRegexpParser',
     },
   }, {
-    test: 'foo',
+    tests: ['foo'],
     strategy: 'any',
     context: {
       handler: 'anyStringHandler',
       parser: 'anyStringParser',
     },
   }, {
-    test: 'foo',
+    tests: ['foo'],
     strategy: 'first-word',
     context: {
       handler: 'firstWordStringHandler',
