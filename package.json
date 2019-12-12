@@ -23,7 +23,6 @@
     ],
     "exclude": [
       "tests/*",
-      "src/config/models/**/*.ts",
       "src/container/**/*.ts"
     ]
   },
