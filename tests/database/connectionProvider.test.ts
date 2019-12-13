@@ -8,6 +8,7 @@ const expect = chai.expect;
 
 import * as typeorm from 'typeorm';
 import { ConnectionProvider, IConnectionProvider } from 'src/database';
+import { mockConfig } from './mockConfig';
 import { DatabaseError } from 'src/error';
 
 describe('Database Connection Provider', () => {
@@ -18,8 +19,7 @@ describe('Database Connection Provider', () => {
   let createConnectionStub: sinon.SinonStub;
 
   beforeEach(() => {
-    provider = new ConnectionProvider();
-    provider['config'] = { type: 'postgres', host: 'test', port: 1, username: 'test', password: 'test', database: 'test' };
+    provider = new ConnectionProvider(mockConfig);
     mockConnection = sandbox.createStubInstance(typeorm.Connection);
   });
 
