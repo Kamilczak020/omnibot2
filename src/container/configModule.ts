@@ -2,7 +2,7 @@ import { CONFIG_IDENTIFIER } from 'src/constants';
 import { ContainerModule, interfaces } from 'inversify';
 import { IBotConfig, TBotConfig } from 'src/config/bot';
 import { IMatcherConfig, TMatcherConfig } from 'src/config/matcher';
-import { IEchoParserConfig, TEchoParserConfig } from 'src/config/parser';
+import { IEchoParserConfig, TEchoParserConfig, ISplitParserConfig, TSplitParserConfig } from 'src/config/parser';
 import { IConnectionProviderConfig, TConnectionProviderConfig } from 'src/config/database';
 import { loadConfig } from 'src/config';
 
@@ -19,5 +19,8 @@ export const configModule = new ContainerModule(
 
     bind<IEchoParserConfig>(CONFIG_IDENTIFIER.IEchoParserConfig)
       .toConstantValue(loadConfig<IEchoParserConfig>(TEchoParserConfig, 'some/path'));
+
+    bind<ISplitParserConfig>(CONFIG_IDENTIFIER.ISplitParserConfig)
+      .toConstantValue(loadConfig<ISplitParserConfig>(TSplitParserConfig, 'some/path'));
   },
 );
