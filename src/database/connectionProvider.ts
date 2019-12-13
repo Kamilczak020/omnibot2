@@ -13,9 +13,11 @@ export interface IConnectionProvider {
 @injectable()
 export class ConnectionProvider implements IConnectionProvider {
   private connection: Connection;
+  private readonly config: IConnectionProviderConfig;
 
-  @inject(CONFIG_IDENTIFIER.IConnectionProviderConfig)
-  private config: IConnectionProviderConfig;
+  public constructor(@inject(CONFIG_IDENTIFIER.IConnectionProviderConfig) config: IConnectionProviderConfig) {
+    this.config = config;
+  }
 
   private async connect(): Promise<void> {
     this.connection = await createConnection({
