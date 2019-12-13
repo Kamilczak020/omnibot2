@@ -13,8 +13,6 @@ export interface IConnectionProvider {
 @injectable()
 export class ConnectionProvider implements IConnectionProvider {
   private connection: Connection;
-
-  @inject(CONFIG_IDENTIFIER.IConnectionProviderConfig)
   private readonly config: IConnectionProviderConfig;
 
   public constructor(@inject(CONFIG_IDENTIFIER.IConnectionProviderConfig) config: IConnectionProviderConfig) {

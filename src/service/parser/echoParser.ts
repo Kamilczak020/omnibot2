@@ -17,6 +17,6 @@ export class EchoParser extends BaseParser implements IEchoParser {
   }
 
   public parse(message: MessageDTO, context: IMatchingContext): [MessageDTO, IParsingContext] {
-    return [message, { handler: context.handler, parsedMessage: message.body }];
+    return [message, { handler: context.handler, parsedMessage: [message.body] }];
   }
 }

@@ -15,6 +15,6 @@ describe('Echo Parser', () => {
   it('Should parse message without making any changes to it', () => {
     const message = { ...baseMessage, ...{ body: 'This should be parsed without changes' } };
     const result = parser.parse(message, { parser: 'EchoParser', handler: 'MockHandler' });
-    expect(result).to.deep.equal([message, { handler: 'MockHandler', parsedMessage: message.body }]);
+    expect(result).to.deep.equal([message, { handler: 'MockHandler', parsedMessage: [message.body] }]);
   });
 });

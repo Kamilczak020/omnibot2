@@ -14,6 +14,6 @@ export class MockParser extends BaseParser implements IMockParser {
   }
 
   public parse(message: MessageDTO, context: IMatchingContext): [MessageDTO, IParsingContext] {
-    return [message, { handler: context.handler, parsedMessage: 'test' }];
+    return [message, { handler: context.handler, parsedMessage: ['test'] }];
   }
 }
