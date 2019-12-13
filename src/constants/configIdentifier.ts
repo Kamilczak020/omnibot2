@@ -3,4 +3,5 @@ export const CONFIG_IDENTIFIER = {
   IBotConfig: Symbol.for('IBotConfig'),
   IMatcherConfig: Symbol.for('IMatcherConfig'),
   IEchoParserConfig: Symbol.for('IEchoParserConfig'),
+  ISplitParserConfig: Symbol.for('ISplitParserConfig'),
 };
