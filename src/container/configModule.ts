@@ -5,6 +5,8 @@ import { IMatcherConfig, TMatcherConfig } from 'src/config/matcher';
 import { IEchoParserConfig, TEchoParserConfig, ISplitParserConfig, TSplitParserConfig } from 'src/config/parser';
 import { IConnectionProviderConfig, TConnectionProviderConfig } from 'src/config/database';
 import { loadConfig } from 'src/config';
+import { IWordFilterConfig, TWordFilterConfig } from 'src/config/filter/wordFilterConfig';
+import { IEchoHandlerConfig, TEchoHandlerConfig } from 'src/config/handler';
 
 export const configModule = new ContainerModule(
   (bind: interfaces.Bind) => {
@@ -22,5 +24,11 @@ export const configModule = new ContainerModule(
 
     bind<ISplitParserConfig>(CONFIG_IDENTIFIER.ISplitParserConfig)
       .toConstantValue(loadConfig<ISplitParserConfig>(TSplitParserConfig, 'some/path'));
+
+    bind<IWordFilterConfig>(CONFIG_IDENTIFIER.IWordFilterConfig)
+      .toConstantValue(loadConfig<IWordFilterConfig>(TWordFilterConfig, 'some/path'));
+
+    bind<IEchoHandlerConfig>(CONFIG_IDENTIFIER.IEchoHandlerConfig)
+      .toConstantValue(loadConfig<IEchoHandlerConfig>(TEchoHandlerConfig, 'some/path'));
   },
 );

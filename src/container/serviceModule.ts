@@ -1,10 +1,12 @@
 import { ContainerModule, interfaces } from 'inversify';
 import { SERVICE_IDENTIFIER } from 'src/constants';
-import { IBot, Bot } from 'src/core/bot';
+import { IBot, Bot } from 'src/bot';
 import { ILogger, Logger } from 'src/logger';
 import { Client } from 'discord.js';
 import { IMatcher, Matcher } from 'src/service/matcher';
 import { IParser, EchoParser, SplitParser } from 'src/service/parser';
+import { IFilter, WordFilter } from 'src/service/filter';
+import { IHandler, EchoHandler } from 'src/service/handler';
 
 export const serviceModule = new ContainerModule(
   (bind: interfaces.Bind) => {
@@ -24,8 +26,12 @@ export const serviceModule = new ContainerModule(
       .to(SplitParser)
       .inRequestScope();
 
-    bind<IMatcher>(SERVICE_IDENTIFIER.IMatcher)
-      .to(Matcher)
+    bind<IFilter>(SERVICE_IDENTIFIER.IFilter)
+      .to(WordFilter)
+      .inRequestScope();
+
+    bind<IHandler>(SERVICE_IDENTIFIER.IHandler)
+      .to(EchoHandler)
       .inRequestScope();
 
     bind<Client>(SERVICE_IDENTIFIER.DiscordClient)
