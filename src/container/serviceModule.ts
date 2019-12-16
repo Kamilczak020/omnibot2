@@ -18,16 +18,16 @@ export const serviceModule = new ContainerModule(
       .to(Matcher)
       .inRequestScope();
 
+    bind<IFilter>(SERVICE_IDENTIFIER.IFilter)
+      .to(WordFilter)
+      .inRequestScope();
+
     bind<IParser>(SERVICE_IDENTIFIER.IParser)
       .to(EchoParser)
       .inRequestScope();
 
     bind<IParser>(SERVICE_IDENTIFIER.IParser)
       .to(SplitParser)
-      .inRequestScope();
-
-    bind<IFilter>(SERVICE_IDENTIFIER.IFilter)
-      .to(WordFilter)
       .inRequestScope();
 
     bind<IHandler>(SERVICE_IDENTIFIER.IHandler)

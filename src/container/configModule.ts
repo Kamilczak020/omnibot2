@@ -19,14 +19,14 @@ export const configModule = new ContainerModule(
     bind<IMatcherConfig>(CONFIG_IDENTIFIER.IMatcherConfig)
       .toConstantValue(loadConfig<IMatcherConfig>(TMatcherConfig, 'some/path'));
 
+    bind<IWordFilterConfig>(CONFIG_IDENTIFIER.IWordFilterConfig)
+      .toConstantValue(loadConfig<IWordFilterConfig>(TWordFilterConfig, 'some/path'));
+
     bind<IEchoParserConfig>(CONFIG_IDENTIFIER.IEchoParserConfig)
       .toConstantValue(loadConfig<IEchoParserConfig>(TEchoParserConfig, 'some/path'));
 
     bind<ISplitParserConfig>(CONFIG_IDENTIFIER.ISplitParserConfig)
       .toConstantValue(loadConfig<ISplitParserConfig>(TSplitParserConfig, 'some/path'));
-
-    bind<IWordFilterConfig>(CONFIG_IDENTIFIER.IWordFilterConfig)
-      .toConstantValue(loadConfig<IWordFilterConfig>(TWordFilterConfig, 'some/path'));
 
     bind<IEchoHandlerConfig>(CONFIG_IDENTIFIER.IEchoHandlerConfig)
       .toConstantValue(loadConfig<IEchoHandlerConfig>(TEchoHandlerConfig, 'some/path'));
