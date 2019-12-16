@@ -1,5 +1,4 @@
 import { MessageDTO } from 'src/entity';
-import { IEchoParserConfig } from 'src/config/parser';
 import { IMatchingContext } from 'src/config/matcher';
 import { IParser, BaseParser, IParsingContext } from 'src/service/parser';
 import { IMockParserConfig } from './mockConfig';
