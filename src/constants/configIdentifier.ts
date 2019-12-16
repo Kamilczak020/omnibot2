@@ -4,4 +4,6 @@ export const CONFIG_IDENTIFIER = {
   IMatcherConfig: Symbol.for('IMatcherConfig'),
   IEchoParserConfig: Symbol.for('IEchoParserConfig'),
   ISplitParserConfig: Symbol.for('ISplitParserConfig'),
+  IWordFilterConfig: Symbol.for('IWordFilterConfig'),
+  IEchoHandlerConfig: Symbol.for('IEchoHandlerConfig'),
 };
