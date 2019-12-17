@@ -1,7 +1,7 @@
 import { MessageDTO } from 'src/entity';
 import { IService, BaseService } from 'src/service/base';
-import { IParsingContext } from '../parser';
-import { IBaseHandlerConfig } from 'src/config/handler';
+import { IParsingContext } from 'src/service/parser';
+import { IBaseHandlerConfig } from 'src/config/service/handler';
 import { IHandlingContext } from './handlingContext';
 
 export interface IHandler extends IService {

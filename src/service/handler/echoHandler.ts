@@ -1,7 +1,7 @@
 import { injectable, inject } from 'inversify';
 import { MessageDTO } from 'src/entity';
-import { IParsingContext } from '../parser';
-import { IEchoHandlerConfig } from 'src/config/handler';
+import { IParsingContext } from 'src/service/parser';
+import { IEchoHandlerConfig } from 'src/config/service/handler';
 import { IHandler, BaseHandler } from './baseHandler';
 import { IHandlingContext } from './handlingContext';
 import { CONFIG_IDENTIFIER } from 'src/constants';

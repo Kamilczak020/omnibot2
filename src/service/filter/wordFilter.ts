@@ -2,7 +2,7 @@ import { injectable, inject } from 'inversify';
 import { CONFIG_IDENTIFIER } from 'src/constants';
 import { MessageDTO } from 'src/entity';
 import { IFilter, BaseFilter } from './baseFilter';
-import { IWordFilterConfig } from 'src/config/filter/wordFilterConfig';
+import { IWordFilterConfig } from 'src/config/service/filter/wordFilterConfig';
 import { isEmpty } from 'lodash';
 
 export type IWordFilter = IFilter;

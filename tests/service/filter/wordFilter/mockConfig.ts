@@ -1,4 +1,4 @@
-import { IWordFilterConfig } from 'src/config/filter';
+import { IWordFilterConfig } from 'src/config/service/filter';
 
 export const mockConfig: IWordFilterConfig = {
   name: 'WordFilter',

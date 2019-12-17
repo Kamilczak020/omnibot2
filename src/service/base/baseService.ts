@@ -1,4 +1,4 @@
-import { IServiceConfig } from 'src/config/service';
+import { IServiceConfig } from 'src/config/service/base';
 
 export interface IService {
   getName(): string;

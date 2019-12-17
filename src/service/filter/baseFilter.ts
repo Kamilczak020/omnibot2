@@ -1,5 +1,5 @@
 import { MessageDTO } from 'src/entity';
-import { IBaseFilterConfig } from 'src/config/filter';
+import { IBaseFilterConfig } from 'src/config/service/filter';
 import { IService, BaseService } from 'src/service/base';
 
 export interface IFilter extends IService {

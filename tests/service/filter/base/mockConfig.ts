@@ -1,4 +1,4 @@
-import { IBaseFilterConfig } from 'src/config/filter';
+import { IBaseFilterConfig } from 'src/config/service/filter';
 
 export type IMockFilterConfig = IBaseFilterConfig;
 

@@ -1,12 +1,12 @@
 import { CONFIG_IDENTIFIER } from 'src/constants';
 import { ContainerModule, interfaces } from 'inversify';
 import { IBotConfig, TBotConfig } from 'src/config/bot';
-import { IMatcherConfig, TMatcherConfig } from 'src/config/matcher';
-import { IEchoParserConfig, TEchoParserConfig, ISplitParserConfig, TSplitParserConfig } from 'src/config/parser';
+import { IMatcherConfig, TMatcherConfig } from 'src/config/service/matcher';
+import { IEchoParserConfig, TEchoParserConfig, ISplitParserConfig, TSplitParserConfig } from 'src/config/service/parser';
 import { IConnectionProviderConfig, TConnectionProviderConfig } from 'src/config/database';
 import { loadConfig } from 'src/config';
-import { IWordFilterConfig, TWordFilterConfig } from 'src/config/filter/wordFilterConfig';
-import { IEchoHandlerConfig, TEchoHandlerConfig } from 'src/config/handler';
+import { IWordFilterConfig, TWordFilterConfig } from 'src/config/service/filter/wordFilterConfig';
+import { IEchoHandlerConfig, TEchoHandlerConfig } from 'src/config/service/handler';
 
 export const configModule = new ContainerModule(
   (bind: interfaces.Bind) => {

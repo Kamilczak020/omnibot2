@@ -1,6 +1,6 @@
 import { MessageDTO } from 'src/entity';
-import { IMatchingContext } from 'src/config/matcher';
-import { IBaseParserConfig } from 'src/config/parser';
+import { IMatchingContext } from 'src/config/service/matcher';
+import { IBaseParserConfig } from 'src/config/service/parser';
 import { IService, BaseService } from 'src/service/base';
 import { IParsingContext } from './parsingContext';
 

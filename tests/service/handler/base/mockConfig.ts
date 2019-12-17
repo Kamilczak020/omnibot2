@@ -1,4 +1,4 @@
-import { IBaseHandlerConfig } from 'src/config/handler';
+import { IBaseHandlerConfig } from 'src/config/service/handler';
 
 export type IMockHandlerConfig = IBaseHandlerConfig;
 
