@@ -8,8 +8,10 @@ import { MessageDTO } from 'src/entity';
 import { IFilter } from 'src/service/filter/baseFilter';
 import { IMatcher } from 'src/service/matcher';
 import { IParser, IParsingContext } from 'src/service/parser';
-import { IMatchingContext } from 'src/config/matcher';
+import { IMatchingContext } from 'src/config/service/matcher';
 import { isNil } from 'src/util';
+import { IHandler } from 'src/service/handler';
+import { IHandlingContext } from 'src/service/handler/handlingContext';
 
 export interface IBot {
   start(): void;
@@ -25,10 +27,12 @@ export class Bot implements IBot {
   private matcher: IMatcher;
   private filters: Array<IFilter>;
   private parsers: Array<IParser>;
+  private handlers: Array<IHandler>;
 
   private incoming: Subject<MessageDTO>;
   private matched: Subject<[MessageDTO, IMatchingContext]>;
   private parsed: Subject<[MessageDTO, IParsingContext]>;
+  private outgoing: Subject<[MessageDTO, IHandlingContext]>;
 
   public constructor(
     @inject(SERVICE_IDENTIFIER.ILogger) logger: ILogger,
@@ -37,6 +41,7 @@ export class Bot implements IBot {
     @inject(SERVICE_IDENTIFIER.IMatcher) matcher: IMatcher,
     @multiInject(SERVICE_IDENTIFIER.IFilter) filters: Array<IFilter>,
     @multiInject(SERVICE_IDENTIFIER.IParser) parsers: Array<IParser>,
+    @multiInject(SERVICE_IDENTIFIER.IHandler) handlers: Array<IHandler>,
   ) {
     this.logger = logger;
     this.config = config;
@@ -45,11 +50,13 @@ export class Bot implements IBot {
     this.matcher = matcher;
     this.filters = filters;
     this.parsers = parsers;
+    this.handlers = handlers;
 
     this.logger.info('Creating bot service.');
     this.incoming = new Subject();
     this.matched = new Subject();
     this.parsed = new Subject();
+    this.outgoing = new Subject();
   }
 
   /**
@@ -65,6 +72,7 @@ export class Bot implements IBot {
 
     this.incoming.subscribe((next) => this.handleIncoming(next).catch(streamError));
     this.matched.subscribe((next) => this.handleMatched(next).catch(streamError));
+    this.parsed.subscribe((next) => this.handleParsed(next).catch(streamError));
 
     this.client.on('ready', () => this.logger.info('Discord listener is ready.'));
     this.client.on('message', (message) => this.incoming.next(this.convertDiscordMessage(message)));
@@ -113,7 +121,7 @@ export class Bot implements IBot {
    */
   private async handleMatched(data: [MessageDTO, IMatchingContext]): Promise<void> {
     const [message, context] = data;
-    const parser = this.findParserByName(context.parser);
+    const parser = this.getParserByName(context.parser);
     if (isNil(parser)) {
       this.logger.error(`Could not find parser with the given name: ${context.parser}`);
       return;
@@ -123,18 +131,51 @@ export class Bot implements IBot {
       const parsingResult = parser.parse(message, context);
       this.parsed.next(parsingResult);
     } catch (error) {
-      this.logger.info('Parser could not parse message.');
+      this.logger.info(`Parser could not parse message: ${error}`);
     }
   }
 
   /**
-   * Tries to find a parser with a given string name
+   * Takes a parsed message and finds a correct handler,
+   * then tries to handle the message accordingly.
+   * @param data tuple of messageDTO and a parsing context
+   */
+  private async handleParsed(data: [MessageDTO, IParsingContext]): Promise<void> {
+    const [message, context] = data;
+    const handler = this.getHandlerByName(context.handler);
+    if (isNil(handler)) {
+      this.logger.error(`Could not find handler with the given name: ${context.handler}`);
+      return;
+    }
+
+    try {
+      const handlingResult = await handler.handle(message, context);
+      this.outgoing.next(handlingResult);
+    } catch (error) {
+      this.logger.info(`Handler could not handle message: ${error}`);
+    }
+  }
+
+  /**
+   * Returns a parser service that has a given name.
    * @param name parser name
    */
-  private findParserByName(name: string) {
+  private getParserByName(name: string): IParser {
     for (const parser of this.parsers) {
       if (parser.getName() === name) {
         return parser;
+      }
+    }
+  }
+
+  /**
+   * Returns a handler service that has a given name.
+   * @param name handler name
+   */
+  private getHandlerByName(name: string): IHandler {
+    for (const handler of this.handlers) {
+      if (handler.getName() === name) {
+        return handler;
       }
     }
   }
