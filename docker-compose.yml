@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  omni-reborn:
+    build: .
+    image: omnireborn
+    env_file:
+      - .env
