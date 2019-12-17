@@ -1,5 +1,5 @@
 import * as t from 'io-ts';
-import { TBaseFilterConfig } from 'src/config/filter';
+import { TBaseFilterConfig } from './baseFilterConfig';
 
 /* tslint:disable: no-empty-interface */
 type T = t.TypeOf<typeof TWordFilterConfig>;
