@@ -6,5 +6,6 @@ export const SERVICE_IDENTIFIER = {
   IFilter: Symbol.for('IFilter'),
   IHandler: Symbol.for('IHandler'),
   IConnectionProvider: Symbol.for('IConnectionProvider'),
+  IClientController: Symbol.for('IClientController'),
   DiscordClient: Symbol.for('DiscordClient'),
 };

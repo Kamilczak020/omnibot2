@@ -12,6 +12,7 @@ import { IMatchingContext } from 'src/config/service/matcher';
 import { isNil } from 'src/util';
 import { IHandler } from 'src/service/handler';
 import { IHandlingContext } from 'src/service/handler/handlingContext';
+import { IClientController } from 'src/client/clientController';
 
 export interface IBot {
   start(): void;
@@ -21,8 +22,8 @@ export interface IBot {
 @injectable()
 export class Bot implements IBot {
   private logger: ILogger;
-  private client: DiscordClient;
   private readonly config: IBotConfig;
+  private clientController: IClientController;
 
   private matcher: IMatcher;
   private filters: Array<IFilter>;
@@ -37,7 +38,7 @@ export class Bot implements IBot {
   public constructor(
     @inject(SERVICE_IDENTIFIER.ILogger) logger: ILogger,
     @inject(CONFIG_IDENTIFIER.IBotConfig) config: IBotConfig,
-    @inject(SERVICE_IDENTIFIER.DiscordClient) client: DiscordClient,
+    @inject(SERVICE_IDENTIFIER.IClientController) client: IClientController,
     @inject(SERVICE_IDENTIFIER.IMatcher) matcher: IMatcher,
     @multiInject(SERVICE_IDENTIFIER.IFilter) filters: Array<IFilter>,
     @multiInject(SERVICE_IDENTIFIER.IParser) parsers: Array<IParser>,
@@ -45,7 +46,7 @@ export class Bot implements IBot {
   ) {
     this.logger = logger;
     this.config = config;
-    this.client = client;
+    this.clientController = this.clientController;
 
     this.matcher = matcher;
     this.filters = filters;
@@ -73,12 +74,13 @@ export class Bot implements IBot {
     this.incoming.subscribe((next) => this.handleIncoming(next).catch(streamError));
     this.matched.subscribe((next) => this.handleMatched(next).catch(streamError));
     this.parsed.subscribe((next) => this.handleParsed(next).catch(streamError));
+    this.outgoing.subscribe((next) => this.handleOutgoing(next).catch(streamError));
 
-    this.client.on('ready', () => this.logger.info('Discord listener is ready.'));
-    this.client.on('message', (message) => this.incoming.next(this.convertDiscordMessage(message)));
+    this.clientController.attachHandler('ready', () => this.logger.info('Discord listener is ready.'));
+    this.clientController.attachHandler('message', (message: DiscordMessage) => this.incoming.next(this.convertDiscordMessage(message)));
 
-    await this.client.login(this.config.token);
-    await this.client.user.setPresence({ game: { name: '!listcommands' }, status: 'online' });
+    await this.clientController.login(this.config.token);
+    await this.clientController.setPresence({ game: { name: '!listcommands' }, status: 'online' });
   }
 
   /**
@@ -89,9 +91,8 @@ export class Bot implements IBot {
     this.logger.info('Stopping bot service.');
     this.incoming.complete();
 
-    this.client.removeAllListeners('ready');
-    this.client.removeAllListeners('message');
-    await this.client.destroy();
+    this.clientController.removeAllListeners(['ready', 'message']);
+    await this.clientController.destroy();
     process.exit();
   }
 
@@ -153,6 +154,19 @@ export class Bot implements IBot {
       this.outgoing.next(handlingResult);
     } catch (error) {
       this.logger.info(`Handler could not handle message: ${error}`);
+    }
+  }
+
+  /**
+   * Takes a handled message and attempts to send a response from it.
+   * @param data tuple of messageDTO and handling context
+   */
+  private async handleOutgoing(data: [MessageDTO, IHandlingContext]): Promise<void> {
+    const [message, context] = data;
+    try {
+      await this.clientController.submitMessage(message, context);
+    } catch (error) {
+      this.logger.error(`Message could not be submitted: ${error}`);
     }
   }
 

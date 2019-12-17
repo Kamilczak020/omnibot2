@@ -1,12 +1,16 @@
 const gulp = require('gulp');
 const ts = require('gulp-typescript');
+const ts_import = require('gulp-typescript-path-resolver');
 
 const tsProject = ts.createProject('tsconfig.json');
 
-gulp.task('scripts', () => {
-  const tsResult = tsProject.src()
-    .pipe(tsProject());
-  return tsResult.js.pipe(gulp.dest('dist'));
+gulp.task('default', () => {
+  return tsProject.src()
+    .pipe(tsProject())
+    .pipe(ts_import.tsPathResolver(tsProject.config.compilerOptions), {
+      "paths": {
+        "src/*": ["./src/*"]
+      }
+    })
+    .pipe(gulp.dest(tsProject.config.compilerOptions.outDir));
 });
-
-gulp.task('default', ['watch', 'assets']);

@@ -7,6 +7,7 @@ import { IMatcher, Matcher } from 'src/service/matcher';
 import { IParser, EchoParser, SplitParser } from 'src/service/parser';
 import { IFilter, WordFilter } from 'src/service/filter';
 import { IHandler, EchoHandler } from 'src/service/handler';
+import { IClientController, ClientController } from 'src/client/clientController';
 
 export const serviceModule = new ContainerModule(
   (bind: interfaces.Bind) => {
@@ -36,6 +37,10 @@ export const serviceModule = new ContainerModule(
 
     bind<Client>(SERVICE_IDENTIFIER.DiscordClient)
       .toConstantValue(new Client());
+
+    bind<IClientController>(SERVICE_IDENTIFIER.IClientController)
+      .to(ClientController)
+      .inSingletonScope();
 
     bind<IBot>(SERVICE_IDENTIFIER.IBot)
       .to(Bot)

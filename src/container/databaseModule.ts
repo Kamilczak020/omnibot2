@@ -4,10 +4,13 @@ import { AsyncContainerModule, interfaces } from 'inversify';
 import { Repository as TypeOrmRepository } from 'typeorm';
 import { IMessageRepository, MessageRepository } from 'src/repository/message';
 import { MessageEntity } from 'src/entity';
+import { loadConfig } from 'src/config';
+import { IConnectionProviderConfig, TConnectionProviderConfig } from 'src/config/database';
 
 export const databaseModule = new AsyncContainerModule(
   async (bind: interfaces.Bind) => {
-    const connectionProvider = new ConnectionProvider();
+    const providerConfig = loadConfig<IConnectionProviderConfig>(TConnectionProviderConfig, './build/connectionProviderConfig.yml');
+    const connectionProvider = new ConnectionProvider(providerConfig);
     const connection = await connectionProvider.getConnection();
 
     bind<IConnectionProvider>(SERVICE_IDENTIFIER.IConnectionProvider)
