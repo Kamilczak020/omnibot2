@@ -45,28 +45,56 @@ describe('Logger', () => {
       logger['loggerOptions'].transport = mockStream as any;
     });
 
-    it('info() should call the transport stream with a log message of level INFO', () => {
-      logger.info('This is a test message', '[{level}] {message}');
-      expect(mockStream.write.calledOnce).to.be.true;
-      expect(mockStream.write.calledWith('[INFO] This is a test message')).to.be.true;
+    describe('info()', () => {
+      it('Should call the transport stream with a log message of level INFO', () => {
+        logger.info('This is a test message', '[{level}] {message}');
+        expect(mockStream.write.calledOnce).to.be.true;
+        expect(mockStream.write.calledWith('[INFO] This is a test message')).to.be.true;
+      });
+
+      it('Should use default format when none is passed', () => {
+        logger.info('This is a test message');
+        expect(mockStream.write.calledOnce).to.be.true;
+      });
     });
 
-    it('debug() should call the transport stream with a log message of level DEBUG', () => {
-      logger.debug('This is a test message', '[{level}] {message}');
-      expect(mockStream.write.calledOnce).to.be.true;
-      expect(mockStream.write.calledWith('[DEBUG] This is a test message')).to.be.true;
+    describe('debug()', () => {
+      it('Should call the transport stream with a log message of level DEBUG', () => {
+        logger.debug('This is a test message', '[{level}] {message}');
+        expect(mockStream.write.calledOnce).to.be.true;
+        expect(mockStream.write.calledWith('[DEBUG] This is a test message')).to.be.true;
+      });
+
+      it('Should use default format when none is passed', () => {
+        logger.debug('This is a test message');
+        expect(mockStream.write.calledOnce).to.be.true;
+      });
     });
 
-    it('warn() should call the transport stream with a log message of level WARNING', () => {
-      logger.warn('This is a test message', '[{level}] {message}');
-      expect(mockStream.write.calledOnce).to.be.true;
-      expect(mockStream.write.calledWith('[WARNING] This is a test message')).to.be.true;
+    describe('warn()', () => {
+      it('Should call the transport stream with a log message of level WARNING', () => {
+        logger.warn('This is a test message', '[{level}] {message}');
+        expect(mockStream.write.calledOnce).to.be.true;
+        expect(mockStream.write.calledWith('[WARNING] This is a test message')).to.be.true;
+      });
+
+      it('Should use default format when none is passed', () => {
+        logger.warn('This is a test message');
+        expect(mockStream.write.calledOnce).to.be.true;
+      });
     });
 
-    it('error() should call the transport stream with a log message of level ERROR', () => {
-      logger.error('This is a test message', '[{level}] {message}');
-      expect(mockStream.write.calledOnce).to.be.true;
-      expect(mockStream.write.calledWith('[ERROR] This is a test message')).to.be.true;
+    describe('error()', () => {
+      it('Should call the transport stream with a log message of level ERROR', () => {
+        logger.error('This is a test message', '[{level}] {message}');
+        expect(mockStream.write.calledOnce).to.be.true;
+        expect(mockStream.write.calledWith('[ERROR] This is a test message')).to.be.true;
+      });
+
+      it('Should use default format when none is passed', () => {
+        logger.error('This is a test message');
+        expect(mockStream.write.calledOnce).to.be.true;
+      });
     });
   });
 });
