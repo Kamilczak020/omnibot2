@@ -10,22 +10,23 @@ import { IEchoHandlerConfig, TEchoHandlerConfig } from 'src/config/service/handl
 
 export const configModule = new ContainerModule(
   (bind: interfaces.Bind) => {
+    console.log(__dirname);
     bind<IBotConfig>(CONFIG_IDENTIFIER.IBotConfig)
-      .toConstantValue(loadConfig<IBotConfig>(TBotConfig, './build/botConfig.yml'));
+      .toConstantValue(loadConfig<IBotConfig>(TBotConfig, './config/botConfig.yml'));
 
     bind<IMatcherConfig>(CONFIG_IDENTIFIER.IMatcherConfig)
-      .toConstantValue(loadConfig<IMatcherConfig>(TMatcherConfig, './build/matcherConfig.yml'));
+      .toConstantValue(loadConfig<IMatcherConfig>(TMatcherConfig, './config/matcherConfig.yml'));
 
     bind<IWordFilterConfig>(CONFIG_IDENTIFIER.IWordFilterConfig)
-      .toConstantValue(loadConfig<IWordFilterConfig>(TWordFilterConfig, './build/wordFilterConfig.yml'));
+      .toConstantValue(loadConfig<IWordFilterConfig>(TWordFilterConfig, './config/wordFilterConfig.yml'));
 
     bind<IEchoParserConfig>(CONFIG_IDENTIFIER.IEchoParserConfig)
-      .toConstantValue(loadConfig<IEchoParserConfig>(TEchoParserConfig, './build/echoParserConfig.yml'));
+      .toConstantValue(loadConfig<IEchoParserConfig>(TEchoParserConfig, './config/echoParserConfig.yml'));
 
     bind<ISplitParserConfig>(CONFIG_IDENTIFIER.ISplitParserConfig)
-      .toConstantValue(loadConfig<ISplitParserConfig>(TSplitParserConfig, './build/splitParserConfig.yml'));
+      .toConstantValue(loadConfig<ISplitParserConfig>(TSplitParserConfig, './config/splitParserConfig.yml'));
 
     bind<IEchoHandlerConfig>(CONFIG_IDENTIFIER.IEchoHandlerConfig)
-      .toConstantValue(loadConfig<IEchoHandlerConfig>(TEchoHandlerConfig, './build/echoHandlerConfig.yml'));
+      .toConstantValue(loadConfig<IEchoHandlerConfig>(TEchoHandlerConfig, './config/echoHandlerConfig.yml'));
   },
 );

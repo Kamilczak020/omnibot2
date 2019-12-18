@@ -9,7 +9,7 @@ import { IConnectionProviderConfig, TConnectionProviderConfig } from 'src/config
 
 export const databaseModule = new AsyncContainerModule(
   async (bind: interfaces.Bind) => {
-    const providerConfig = loadConfig<IConnectionProviderConfig>(TConnectionProviderConfig, './build/connectionProviderConfig.yml');
+    const providerConfig = loadConfig<IConnectionProviderConfig>(TConnectionProviderConfig, './config/connectionProviderConfig.yml');
     const connectionProvider = new ConnectionProvider(providerConfig);
     const connection = await connectionProvider.getConnection();
 
