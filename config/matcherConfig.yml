@@ -1,8 +1,8 @@
 name: 'ServiceMatcher'
 rules:
-  - strategy: 'first-word'
-    tests:
-      - /!echo/
+  - tests:
+      - !regexp /!echo/
+    strategy: 'first-word'
     context:
       handler: 'EchoHandler'
       parser: 'SplitParser'
