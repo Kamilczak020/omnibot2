@@ -22,8 +22,8 @@
       "./node_modules/@types",
       "./typings"
     ],
-    "rootDir": "./",
-    "baseUrl": "./",
+    "rootDir": "./src",
+    "baseUrl": ".",
     "paths": {
       "src/*": [
         "./src/*"

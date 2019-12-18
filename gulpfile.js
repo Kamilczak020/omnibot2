@@ -1,16 +1,18 @@
 const gulp = require('gulp');
 const ts = require('gulp-typescript');
-const ts_import = require('gulp-typescript-path-resolver');
+const alias = require('gulp-ts-alias');
+const sourcemaps = require('gulp-sourcemaps');
+const path = require('path');
 
 const tsProject = ts.createProject('tsconfig.json');
 
 gulp.task('default', () => {
-  return tsProject.src()
-    .pipe(tsProject())
-    .pipe(ts_import.tsPathResolver(tsProject.config.compilerOptions), {
-      "paths": {
-        "src/*": ["./src/*"]
-      }
-    })
-    .pipe(gulp.dest(tsProject.config.compilerOptions.outDir));
+  const compiled = tsProject.src()
+    .pipe(alias({ configuration: tsProject.config }))
+    .pipe(sourcemaps.init())
+    .pipe(tsProject());
+
+  return compiled.js
+    .pipe(sourcemaps.write({ sourceRoot: file => path.relative(path.join(file.cwd, file.path), file.base) }))
+    .pipe(gulp.dest('build/'));
 });
