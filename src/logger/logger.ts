@@ -1,5 +1,6 @@
 import { LogLevel } from './logLevel';
 import { format as formatDate } from 'date-fns';
+import { injectable, unmanaged } from 'inversify';
 
 export interface ILogger {
   info(message: string): void;
@@ -23,10 +24,11 @@ interface LoggerOptions {
  * of log messages into any type of WritableStream.
  * Supports different kinds of formatting.
  */
+@injectable()
 export class Logger implements ILogger {
   private loggerOptions: LoggerOptions;
 
-  public constructor(options?: LoggerOptions) {
+  public constructor(@unmanaged() options?: LoggerOptions) {
     const defaultOptions = {
       format: '[{level}] [{timestamp}] | {message}',
       transport: process.stdout,
