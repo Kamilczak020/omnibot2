@@ -23,6 +23,6 @@ export function loadConfig<T>(codec: t.Type<T>, path: string): T {
   if (isRight(result)) {
     return result.right;
   } else {
-    throw new ConfigurationError('Configuration schema does not match.');
+    throw new ConfigurationError(`Configuration schema does not match: ${path}.`);
   }
 }

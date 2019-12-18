@@ -12,7 +12,7 @@ export const TConnectionProviderConfig = t.type({
     sqlite: undefined,
   }),
   host: t.string,
-  port: t.number,
+  port: t.string,
   username: t.string,
   password: t.string,
   database: t.string,
