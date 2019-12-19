@@ -38,7 +38,7 @@ export class Bot implements IBot {
   public constructor(
     @inject(SERVICE_IDENTIFIER.ILogger) logger: ILogger,
     @inject(CONFIG_IDENTIFIER.IBotConfig) config: IBotConfig,
-    @inject(SERVICE_IDENTIFIER.IClientController) client: IClientController,
+    @inject(SERVICE_IDENTIFIER.IClientController) clientController: IClientController,
     @inject(SERVICE_IDENTIFIER.IMatcher) matcher: IMatcher,
     @multiInject(SERVICE_IDENTIFIER.IFilter) filters: Array<IFilter>,
     @multiInject(SERVICE_IDENTIFIER.IParser) parsers: Array<IParser>,
@@ -46,7 +46,7 @@ export class Bot implements IBot {
   ) {
     this.logger = logger;
     this.config = config;
-    this.clientController = this.clientController;
+    this.clientController = clientController;
 
     this.matcher = matcher;
     this.filters = filters;
@@ -102,14 +102,18 @@ export class Bot implements IBot {
    * @param message message to handle
    */
   private async handleIncoming(message: MessageDTO): Promise<void> {
+    this.logger.debug(`Incoming message: "${message.body}"`);
     const filterResults = await Promise.all(this.filters.map((filterService) => filterService.filter(message)));
-    if (filterResults.reduce((prev, next) => prev && next) === false) {
+    if (filterResults.reduce((prev, next) => prev || next) === true) {
+      this.logger.debug(`Message has been filtered: "${message.body}"`);
       return;
     }
 
     try {
       const matchResult = this.matcher.match(message);
+      const [, matchingContext] = matchResult;
       this.matched.next(matchResult);
+      this.logger.debug(`Message has been matched with: ${matchingContext.handler}, ${matchingContext.parser}`);
     } catch (error) {
       this.logger.info('Message was not matched.');
     }
@@ -130,9 +134,11 @@ export class Bot implements IBot {
 
     try {
       const parsingResult = parser.parse(message, context);
+      const [, parsingContext] = parsingResult;
       this.parsed.next(parsingResult);
+      this.logger.debug(`Message has been parsed: ${parsingContext.parsedMessage}`);
     } catch (error) {
-      this.logger.info(`Parser could not parse message: ${error}`);
+      this.logger.error(`Parser could not parse message: ${error}`);
     }
   }
 
@@ -151,9 +157,11 @@ export class Bot implements IBot {
 
     try {
       const handlingResult = await handler.handle(message, context);
+      const [, handlingContext] = handlingResult;
       this.outgoing.next(handlingResult);
+      this.logger.debug(`Message has been handled: ${handlingContext.description}`);
     } catch (error) {
-      this.logger.info(`Handler could not handle message: ${error}`);
+      this.logger.error(`Handler could not handle message: ${error}`);
     }
   }
 
