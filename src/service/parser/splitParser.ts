@@ -13,7 +13,7 @@ export type ISplitParser = IParser;
 export class SplitParser extends BaseParser implements ISplitParser {
   protected readonly config: ISplitParserConfig;
 
-  public constructor(@inject(CONFIG_IDENTIFIER.IEchoParserConfig) config: ISplitParserConfig) {
+  public constructor(@inject(CONFIG_IDENTIFIER.ISplitParserConfig) config: ISplitParserConfig) {
     super(config);
   }
 
