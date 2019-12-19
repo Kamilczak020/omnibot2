@@ -56,7 +56,7 @@ export class ClientController implements IClientController {
     if (channel instanceof TextChannel) {
       try {
         this.logger.info('Sending response to guild channel.');
-        await channel.sendEmbed(embed);
+        await channel.send(embed);
       } catch (error) {
         this.logger.error('Failed to send message to guild channel');
         throw new DiscordClientError('Could not send message.');
@@ -64,7 +64,7 @@ export class ClientController implements IClientController {
     } else if (channel instanceof DMChannel) {
       try {
         this.logger.info('Sending response to DM channel.');
-        await channel.sendEmbed(embed);
+        await channel.send(embed);
       } catch (error) {
         this.logger.error('Failed to send message to DM channel');
         throw new DiscordClientError('Could not send message.');
@@ -126,7 +126,7 @@ export class ClientController implements IClientController {
     const embed = new RichEmbed();
     embed.title = context.title;
     embed.description = context.description;
-    embed.fields = context.fields.map((field) => ({
+    embed.fields = context.fields?.map((field) => ({
       name: field.name,
       value: field.value,
       inline: field.inline,
