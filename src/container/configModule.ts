@@ -4,8 +4,10 @@ import { CONFIG_IDENTIFIER } from 'src/constants';
 import { ContainerModule, interfaces } from 'inversify';
 import { IBotConfig, TBotConfig } from 'src/config/bot';
 import { IMatcherConfig, TMatcherConfig } from 'src/config/service/matcher';
-import { IEchoParserConfig, TEchoParserConfig, ISplitParserConfig, TSplitParserConfig } from 'src/config/service/parser';
-import { IWordFilterConfig, TWordFilterConfig } from 'src/config/service/filter/wordFilterConfig';
+import { IEchoParserConfig, TEchoParserConfig } from 'src/config/service/parser';
+import { ISplitParserConfig, TSplitParserConfig } from 'src/config/service/parser';
+import { IWordFilterConfig, TWordFilterConfig } from 'src/config/service/filter';
+import { IUserFilterConfig, TUserFilterConfig } from 'src/config/service/filter';
 import { IEchoHandlerConfig, TEchoHandlerConfig } from 'src/config/service/handler';
 
 export const configModule = new ContainerModule(
@@ -19,6 +21,9 @@ export const configModule = new ContainerModule(
 
     bind<IWordFilterConfig>(CONFIG_IDENTIFIER.IWordFilterConfig)
       .toConstantValue(loadConfig<IWordFilterConfig>(TWordFilterConfig, './config/wordFilterConfig.yml'));
+
+    bind<IUserFilterConfig>(CONFIG_IDENTIFIER.IUserFilterConfig)
+      .toConstantValue(loadConfig<IUserFilterConfig>(TUserFilterConfig, './config/userFilterConfig.yml'));
 
     bind<IEchoParserConfig>(CONFIG_IDENTIFIER.IEchoParserConfig)
       .toConstantValue(loadConfig<IEchoParserConfig>(TEchoParserConfig, './config/echoParserConfig.yml'));

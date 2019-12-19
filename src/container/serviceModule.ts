@@ -5,7 +5,7 @@ import { ILogger, Logger } from 'src/logger';
 import { Client } from 'discord.js';
 import { IMatcher, Matcher } from 'src/service/matcher';
 import { IParser, EchoParser, SplitParser } from 'src/service/parser';
-import { IFilter, WordFilter } from 'src/service/filter';
+import { IFilter, WordFilter, UserFilter } from 'src/service/filter';
 import { IHandler, EchoHandler } from 'src/service/handler';
 import { IClientController, ClientController } from 'src/client/clientController';
 
@@ -21,6 +21,10 @@ export const serviceModule = new ContainerModule(
 
     bind<IFilter>(SERVICE_IDENTIFIER.IFilter)
       .to(WordFilter)
+      .inRequestScope();
+
+    bind<IFilter>(SERVICE_IDENTIFIER.IFilter)
+      .to(UserFilter)
       .inRequestScope();
 
     bind<IParser>(SERVICE_IDENTIFIER.IParser)
