@@ -1,4 +1,3 @@
-import { Logger } from 'src/logger';
 import { WriteStream } from 'fs';
 import * as chai from 'chai';
 import * as sinon from 'sinon';
@@ -7,6 +6,8 @@ import 'mocha';
 
 chai.use(sinonChai);
 const expect = chai.expect;
+
+import { Logger } from 'src/logger';
 
 describe('Logger', () => {
   describe('Base properties & constructor', () => {
@@ -49,7 +50,7 @@ describe('Logger', () => {
       it('Should call the transport stream with a log message of level INFO', () => {
         logger.info('This is a test message', '[{level}] {message}');
         expect(mockStream.write.calledOnce).to.be.true;
-        expect(mockStream.write.calledWith('[INFO] This is a test message')).to.be.true;
+        expect(mockStream.write.calledWith('[INF] This is a test message\n')).to.be.true;
       });
 
       it('Should use default format when none is passed', () => {
@@ -62,7 +63,7 @@ describe('Logger', () => {
       it('Should call the transport stream with a log message of level DEBUG', () => {
         logger.debug('This is a test message', '[{level}] {message}');
         expect(mockStream.write.calledOnce).to.be.true;
-        expect(mockStream.write.calledWith('[DEBUG] This is a test message')).to.be.true;
+        expect(mockStream.write.calledWith('[DBG] This is a test message\n')).to.be.true;
       });
 
       it('Should use default format when none is passed', () => {
@@ -75,7 +76,7 @@ describe('Logger', () => {
       it('Should call the transport stream with a log message of level WARNING', () => {
         logger.warn('This is a test message', '[{level}] {message}');
         expect(mockStream.write.calledOnce).to.be.true;
-        expect(mockStream.write.calledWith('[WARNING] This is a test message')).to.be.true;
+        expect(mockStream.write.calledWith('[WRN] This is a test message\n')).to.be.true;
       });
 
       it('Should use default format when none is passed', () => {
@@ -88,7 +89,7 @@ describe('Logger', () => {
       it('Should call the transport stream with a log message of level ERROR', () => {
         logger.error('This is a test message', '[{level}] {message}');
         expect(mockStream.write.calledOnce).to.be.true;
-        expect(mockStream.write.calledWith('[ERROR] This is a test message')).to.be.true;
+        expect(mockStream.write.calledWith('[ERR] This is a test message\n')).to.be.true;
       });
 
       it('Should use default format when none is passed', () => {
