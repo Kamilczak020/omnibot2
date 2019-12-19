@@ -71,12 +71,12 @@ describe('Discord Client Controller', () => {
     });
 
     describe('RemoveAllListeners()', () => {
-      it('removeAllListeners() should remove one listener', async () => {
+      it('Should remove one listener', async () => {
         controller.removeAllListeners(['test']);
         expect(removeAllListenersMock.calledOnceWith('test')).to.be.true;
       });
 
-      it('removeAllListeners() should remove multiple listeners', async () => {
+      it('Should remove multiple listeners', async () => {
         controller.removeAllListeners(['test1', 'test2']);
         expect(removeAllListenersMock.calledTwice).to.be.true;
         expect(removeAllListenersMock.calledWith('test1')).to.be.true;

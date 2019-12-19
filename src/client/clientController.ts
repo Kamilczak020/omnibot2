@@ -49,14 +49,14 @@ export class ClientController implements IClientController {
    * @param context handling context
    */
   public async submitMessage(message: MessageDTO, context: IHandlingContext): Promise<void> {
-    const guild = this.client.guilds.find((guildQuery) => guildQuery.id === message.guild);
-    const channel = guild.channels.find((channelQuery) => channelQuery.id === message.channel);
+    const channel = this.client.channels.find((channelQuery) => channelQuery.id === message.channel);
     const embed = this.createEmbedFromContext(context);
 
     if (channel instanceof TextChannel) {
       try {
         this.logger.info('Sending response to guild channel.');
         await channel.send(embed);
+        return;
       } catch (error) {
         this.logger.error('Failed to send message to guild channel');
         throw new DiscordClientError('Could not send message.');
@@ -65,13 +65,14 @@ export class ClientController implements IClientController {
       try {
         this.logger.info('Sending response to DM channel.');
         await channel.send(embed);
+        return;
       } catch (error) {
         this.logger.error('Failed to send message to DM channel');
         throw new DiscordClientError('Could not send message.');
       }
     }
 
-    throw new DiscordClientError('Channel type not supported.');
+    throw new DiscordClientError(`Channel type not supported.`);
   }
 
   /**

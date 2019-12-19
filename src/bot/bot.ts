@@ -116,6 +116,7 @@ export class Bot implements IBot {
       this.logger.debug(`Message has been matched with: ${matchingContext.handler}, ${matchingContext.parser}`);
     } catch (error) {
       this.logger.info('Message was not matched.');
+      return;
     }
   }
 
@@ -139,6 +140,7 @@ export class Bot implements IBot {
       this.logger.debug(`Message has been parsed: ${parsingContext.parsedMessage}`);
     } catch (error) {
       this.logger.error(`Parser could not parse message: ${error}`);
+      return;
     }
   }
 
@@ -162,6 +164,7 @@ export class Bot implements IBot {
       this.logger.debug(`Message has been handled: ${handlingContext.description}`);
     } catch (error) {
       this.logger.error(`Handler could not handle message: ${error}`);
+      return;
     }
   }
 
@@ -175,6 +178,7 @@ export class Bot implements IBot {
       await this.clientController.submitMessage(message, context);
     } catch (error) {
       this.logger.error(`Message could not be submitted: ${error}`);
+      return;
     }
   }
 
