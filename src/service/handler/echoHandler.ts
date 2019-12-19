@@ -20,7 +20,7 @@ export class EchoHandler extends BaseHandler implements IEchoHandler {
     const handlingContext = {
       color: this.config.color,
       title: 'Echo result',
-      description: context.parsedMessage.join(),
+      description: context.parsedMessage.join(' '),
     };
 
     return [message, handlingContext];
