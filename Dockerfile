@@ -23,7 +23,7 @@ RUN npm run build
 # --- Release ---
 FROM base AS release
 COPY --from=dependencies /usr/src/app/prod_node_modules ./node_modules
-COPY --from=build /usr/src/app/build ./build
+COPY --from=build /usr/src/app/build/src ./build
 COPY config ./config
 
 # --- Entrypoint command ---
