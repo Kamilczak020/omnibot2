@@ -1,6 +1,7 @@
 import { LogLevel } from './logLevel';
 import { format as formatDate } from 'date-fns';
 import { injectable, unmanaged } from 'inversify';
+import { trimString } from 'src/util';
 
 export interface ILogger {
   info(message: string): void;
@@ -43,7 +44,10 @@ export class Logger implements ILogger {
    * @param format logging format
    */
   public info(message: string, format?: string) {
-    this.logMessage(message, { ...this.loggerOptions, format, level: LogLevel.Info });
+    const options = { ...this.loggerOptions, level: LogLevel.Info };
+    options.format = format ? format : this.loggerOptions.format;
+
+    this.logMessage(message, options);
   }
 
   /**
@@ -52,7 +56,10 @@ export class Logger implements ILogger {
    * @param format logging format
    */
   public debug(message: string, format?: string) {
-    this.logMessage(message, { ...this.loggerOptions, format, level: LogLevel.Debug });
+    const options = { ...this.loggerOptions, level: LogLevel.Debug };
+    options.format = format ? format : this.loggerOptions.format;
+
+    this.logMessage(message, options);
   }
 
   /**
@@ -61,7 +68,10 @@ export class Logger implements ILogger {
    * @param format logging format
    */
   public warn(message: string, format?: string) {
-    this.logMessage(message, { ...this.loggerOptions, format, level: LogLevel.Warning });
+    const options = { ...this.loggerOptions, level: LogLevel.Warning };
+    options.format = format ? format : this.loggerOptions.format;
+
+    this.logMessage(message, options);
   }
 
   /**
@@ -70,7 +80,10 @@ export class Logger implements ILogger {
    * @param format logging format
    */
   public error(message: string, format?: string) {
-    this.logMessage(message, { ...this.loggerOptions, format, level: LogLevel.Error });
+    const options = { ...this.loggerOptions, level: LogLevel.Error };
+    options.format = format ? format : this.loggerOptions.format;
+
+    this.logMessage(message, options);
   }
 
   /**
@@ -102,7 +115,8 @@ export class Logger implements ILogger {
    * @param options message options
    */
   private logMessage(message: string, options: MessageOptions & LoggerOptions) {
-    const parsedMessage = this.formatMessage(message, options);
-    options.transport.write(parsedMessage);
+    const trimmedMessage = trimString(message, 150);
+    const parsedMessage = this.formatMessage(trimmedMessage, options);
+    options.transport.write(parsedMessage + '\n');
   }
 }
