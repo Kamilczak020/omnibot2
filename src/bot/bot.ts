@@ -93,6 +93,7 @@ export class Bot implements IBot {
 
     this.clientController.removeAllListeners(['ready', 'message']);
     await this.clientController.destroy();
+    this.logger.stop();
     process.exit();
   }
 

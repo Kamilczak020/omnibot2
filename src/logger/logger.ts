@@ -8,6 +8,8 @@ export interface ILogger {
   debug(message: string): void;
   warn(message: string): void;
   error(message: string): void;
+  setDefaultOptions(options: LoggerOptions): void;
+  stop(): void;
 }
 
 interface MessageOptions {
@@ -92,6 +94,13 @@ export class Logger implements ILogger {
    */
   public setDefaultOptions(options: LoggerOptions) {
     this.loggerOptions = { ...this.loggerOptions, ...options };
+  }
+
+  /**
+   * Closes and flushes all the streams
+   */
+  public stop() {
+    this.loggerOptions.transport.end();
   }
 
   /**

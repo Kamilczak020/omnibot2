@@ -37,6 +37,21 @@ describe('Logger', () => {
     });
   });
 
+  describe('stop()', () => {
+    const logger = new Logger();
+    let mockStream: sinon.SinonStubbedInstance<WriteStream>;
+
+    beforeEach(() => {
+      mockStream = sinon.createStubInstance(WriteStream);
+      logger['loggerOptions'].transport = mockStream as any;
+    });
+
+    it('Should stop the stream', () => {
+      logger.stop();
+      expect(mockStream.end.calledOnce).to.be.true;
+    });
+  });
+
   describe('logging methods', () => {
     const logger = new Logger();
     let mockStream: sinon.SinonStubbedInstance<WriteStream>;
