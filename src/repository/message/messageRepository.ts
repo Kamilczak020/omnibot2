@@ -7,7 +7,7 @@ import { MessageDataMapper } from './messageDataMapper';
 import { DatabaseError } from 'src/error';
 
 export interface IMessageRepository extends IRepository<MessageDTO> {
-
+  getAllByAuthor(author: string): Promise<Array<MessageDTO>>;
 }
 
 @injectable()
