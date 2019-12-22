@@ -1,11 +1,15 @@
 import { LogLevel } from './logLevel';
 import { format as formatDate } from 'date-fns';
+import { injectable, unmanaged } from 'inversify';
+import { trimString } from 'src/util';
 
 export interface ILogger {
   info(message: string): void;
   debug(message: string): void;
   warn(message: string): void;
   error(message: string): void;
+  setDefaultOptions(options: LoggerOptions): void;
+  stop(): void;
 }
 
 interface MessageOptions {
@@ -23,10 +27,11 @@ interface LoggerOptions {
  * of log messages into any type of WritableStream.
  * Supports different kinds of formatting.
  */
+@injectable()
 export class Logger implements ILogger {
   private loggerOptions: LoggerOptions;
 
-  public constructor(options?: LoggerOptions) {
+  public constructor(@unmanaged() options?: LoggerOptions) {
     const defaultOptions = {
       format: '[{level}] [{timestamp}] | {message}',
       transport: process.stdout,
@@ -41,7 +46,10 @@ export class Logger implements ILogger {
    * @param format logging format
    */
   public info(message: string, format?: string) {
-    this.logMessage(message, { ...this.loggerOptions, format, level: LogLevel.Info });
+    const options = { ...this.loggerOptions, level: LogLevel.Info };
+    options.format = format ? format : this.loggerOptions.format;
+
+    this.logMessage(message, options);
   }
 
   /**
@@ -50,7 +58,10 @@ export class Logger implements ILogger {
    * @param format logging format
    */
   public debug(message: string, format?: string) {
-    this.logMessage(message, { ...this.loggerOptions, format, level: LogLevel.Debug });
+    const options = { ...this.loggerOptions, level: LogLevel.Debug };
+    options.format = format ? format : this.loggerOptions.format;
+
+    this.logMessage(message, options);
   }
 
   /**
@@ -59,7 +70,10 @@ export class Logger implements ILogger {
    * @param format logging format
    */
   public warn(message: string, format?: string) {
-    this.logMessage(message, { ...this.loggerOptions, format, level: LogLevel.Warning });
+    const options = { ...this.loggerOptions, level: LogLevel.Warning };
+    options.format = format ? format : this.loggerOptions.format;
+
+    this.logMessage(message, options);
   }
 
   /**
@@ -68,7 +82,10 @@ export class Logger implements ILogger {
    * @param format logging format
    */
   public error(message: string, format?: string) {
-    this.logMessage(message, { ...this.loggerOptions, format, level: LogLevel.Error });
+    const options = { ...this.loggerOptions, level: LogLevel.Error };
+    options.format = format ? format : this.loggerOptions.format;
+
+    this.logMessage(message, options);
   }
 
   /**
@@ -77,6 +94,13 @@ export class Logger implements ILogger {
    */
   public setDefaultOptions(options: LoggerOptions) {
     this.loggerOptions = { ...this.loggerOptions, ...options };
+  }
+
+  /**
+   * Closes and flushes all the streams
+   */
+  public stop() {
+    this.loggerOptions.transport.end();
   }
 
   /**
@@ -100,7 +124,8 @@ export class Logger implements ILogger {
    * @param options message options
    */
   private logMessage(message: string, options: MessageOptions & LoggerOptions) {
-    const parsedMessage = this.formatMessage(message, options);
-    options.transport.write(parsedMessage);
+    const trimmedMessage = trimString(message, 150);
+    const parsedMessage = this.formatMessage(trimmedMessage, options);
+    options.transport.write(parsedMessage + '\n');
   }
 }

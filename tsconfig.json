@@ -22,15 +22,21 @@
       "./node_modules/@types",
       "./typings"
     ],
-    "baseUrl": "./",
+    "rootDir": ".",
+    "baseUrl": ".",
     "paths": {
-      "src/*": ["./src/*"],
-      "tests/*": ["./tests/*"],
+      "src/*": [
+        "./src/*"
+      ],
+      "tests/*": [
+        "./tests/*"
+      ],
     }
   },
   "exclude": [
     "dist",
     "build",
-    "node_modules"
+    "node_modules",
+    "prod_node_modules"
   ]
 }

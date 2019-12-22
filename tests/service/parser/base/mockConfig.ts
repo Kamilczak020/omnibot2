@@ -1,4 +1,4 @@
-import { IBaseParserConfig } from 'src/config/parser';
+import { IBaseParserConfig } from 'src/config/service/parser';
 
 export type IMockParserConfig = IBaseParserConfig;
 

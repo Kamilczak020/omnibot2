@@ -15,13 +15,16 @@ RUN apk del .gyp
 # --- Build ---
 FROM dependencies AS build
 COPY src ./src
+COPY config ./config
+COPY tsconfig.json .
 COPY gulpfile.js .
 RUN npm run build
 
 # --- Release ---
 FROM base AS release
 COPY --from=dependencies /usr/src/app/prod_node_modules ./node_modules
-COPY --from=build /usr/src/app/build ./build
+COPY --from=build /usr/src/app/build/src ./build
+COPY config ./config
 
 # --- Entrypoint command ---
 CMD npm run start

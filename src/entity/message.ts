@@ -1,8 +1,14 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { DomainEntity } from './domainEntity';
-import { isNil } from 'src/util';
 
-export type MessageDTO = DomainEntity<MessageEntity>;
+export interface MessageDTO {
+  id: string;
+  messageId: string;
+  body: string;
+  author: string;
+  channel: string;
+  guild: string;
+  timestamp: Date;
+}
 
 /**
  * Class representing a discord message entity in the database.

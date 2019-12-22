@@ -11,6 +11,13 @@ import { splitWithoutSkipConfig, splitWithSkipConfig } from './mockConfig';
 import { ParsingError } from 'src/error';
 
 describe('Split Parser', () => {
+  it('Should return messageDTO without changing it', () => {
+    const parser = new SplitParser(splitWithoutSkipConfig);
+    const message = { ...baseMessage, ...{ body: 'foo' } };
+    const [messageDTO] = parser.parse(message, { parser: 'MockParser', handler: 'MockHandler' });
+    expect(messageDTO).to.deep.equal(message);
+  });
+
   it('Should be able to split a single word message', () => {
     const parser = new SplitParser(splitWithoutSkipConfig);
     const message = { ...baseMessage, ...{ body: 'foo' } };

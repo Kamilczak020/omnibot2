@@ -23,7 +23,7 @@ export class ConnectionProvider implements IConnectionProvider {
     this.connection = await createConnection({
       type: this.config.type,
       host: this.config.host,
-      port: this.config.port,
+      port: parseInt(this.config.port, 10),
       username: this.config.username,
       password: this.config.password,
       database: this.config.database,

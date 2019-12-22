@@ -1,4 +1,4 @@
-import { IEchoParserConfig } from 'src/config/parser';
+import { IEchoParserConfig } from 'src/config/service/parser';
 
 export const mockConfig: IEchoParserConfig = {
   name: 'EchoParser',

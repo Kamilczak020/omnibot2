@@ -1,6 +1,6 @@
 import { installContainer } from 'src/container/installer';
 import { SERVICE_IDENTIFIER } from './constants';
-import { IBot } from 'src/core';
+import { IBot } from 'src/bot';
 
 async function main() {
   try {

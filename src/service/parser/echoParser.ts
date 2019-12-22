@@ -1,8 +1,8 @@
-import { IEchoParserConfig } from 'src/config/parser';
+import { IEchoParserConfig } from 'src/config/service/parser';
 import { IParser, BaseParser } from './baseParser';
 import { injectable, inject } from 'inversify';
 import { CONFIG_IDENTIFIER } from 'src/constants';
-import { IMatchingContext } from 'src/config/matcher';
+import { IMatchingContext } from 'src/config/service/matcher';
 import { MessageDTO } from 'src/entity';
 import { IParsingContext } from './parsingContext';
 

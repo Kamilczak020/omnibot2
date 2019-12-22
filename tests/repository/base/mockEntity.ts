@@ -1,6 +1,7 @@
-import { DomainEntity } from 'src/entity/domainEntity';
-
-export type MockDTO = DomainEntity<MockEntity>;
+export interface MockDTO {
+  id: string;
+  body: string;
+}
 
 export class MockEntity {
   public id: string;

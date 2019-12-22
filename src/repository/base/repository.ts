@@ -1,18 +1,17 @@
 import { IEntityDataMapper } from './dataMapper';
 import { injectable, unmanaged } from 'inversify';
 import { Repository as TypeOrmRepository } from 'typeorm';
-import { DomainEntity } from 'src/entity';
 import { DatabaseError } from 'src/error';
 
 export interface IRepository<T> {
   getAll(): Promise<Array<T>>;
   getOneById(id: string): Promise<T>;
-  remove(entities: Array<DomainEntity<T>>): Promise<void>;
-  insert(entities: Array<DomainEntity<T>>): Promise<void>;
+  remove(entities: Array<T>): Promise<void>;
+  insert(entities: Array<T>): Promise<void>;
 }
 
 @injectable()
-export class GenericRepository<TDomainEntity extends DomainEntity<TDalEntity>, TDalEntity> implements IRepository<TDomainEntity> {
+export class GenericRepository<TDomainEntity, TDalEntity> implements IRepository<TDomainEntity> {
   protected readonly _repository: TypeOrmRepository<TDalEntity>;
   protected readonly _dataMapper: IEntityDataMapper<TDomainEntity, TDalEntity>;
 
@@ -28,7 +27,7 @@ export class GenericRepository<TDomainEntity extends DomainEntity<TDalEntity>, T
    * Gets all records from the database of given entity.
    * @returns An array of database records
    */
-  public async getAll(): Promise<Array<TDomainEntity>> {
+  public async getAll() {
     try {
       const entities = await this._repository.find();
       return entities.map((e) => this._dataMapper.toDomain(e));
@@ -42,7 +41,7 @@ export class GenericRepository<TDomainEntity extends DomainEntity<TDalEntity>, T
    * @param id id to query with
    * @returns A record from the database
    */
-  public async getOneById(id: string): Promise<TDomainEntity> {
+  public async getOneById(id: string) {
     try {
       const entity = await this._repository.findOne({ where: { id } });
       return this._dataMapper.toDomain(entity);
@@ -55,7 +54,7 @@ export class GenericRepository<TDomainEntity extends DomainEntity<TDalEntity>, T
    * Removes all records that match given entity instances.
    * @param entities entity instances to remove
    */
-  public async remove(entities: Array<TDomainEntity>): Promise<void> {
+  public async remove(entities: Array<TDomainEntity>) {
     try {
       const dalEntities = entities.map((e) => this._dataMapper.toEntity(e));
       await this._repository.remove(dalEntities);
@@ -68,7 +67,7 @@ export class GenericRepository<TDomainEntity extends DomainEntity<TDalEntity>, T
    * Inserts new records that represent given entity instances.
    * @param entities entity instances to insert
    */
-  public async insert(entities: Array<TDomainEntity>): Promise<void> {
+  public async insert(entities: Array<TDomainEntity>) {
     try {
       const dalEntities = entities.map((e) => this._dataMapper.toEntity(e));
       await this._repository.insert(dalEntities);

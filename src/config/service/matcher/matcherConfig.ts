@@ -1,6 +1,6 @@
 import * as t from 'io-ts';
 import { regexp } from 'io-ts-types/lib/regexp';
-import { TServiceConfig } from 'src/config/service';
+import { TServiceConfig } from 'src/config/service/base';
 import { TMachingContext } from './matchingContext';
 
 /* tslint:disable: no-empty-interface */

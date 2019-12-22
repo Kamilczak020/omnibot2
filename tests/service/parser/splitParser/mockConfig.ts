@@ -1,4 +1,4 @@
-import { ISplitParserConfig } from 'src/config/parser';
+import { ISplitParserConfig } from 'src/config/service/parser';
 
 export const splitWithoutSkipConfig: ISplitParserConfig = {
   name: 'SplitParser',

@@ -4,7 +4,7 @@ import { MessageDTO } from 'src/entity';
 import { MatchingError } from 'src/error';
 import { isEmpty } from 'lodash';
 import { IService, BaseService } from 'src/service/base';
-import { IMatcherConfig, IMatchingContext } from 'src/config/matcher';
+import { IMatcherConfig, IMatchingContext } from 'src/config/service/matcher';
 
 export interface IMatcher extends IService {
   match(message: MessageDTO): [MessageDTO, IMatchingContext];

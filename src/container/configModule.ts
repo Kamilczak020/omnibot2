@@ -1,26 +1,37 @@
+import * as path from 'path';
+import { loadConfig } from 'src/config';
 import { CONFIG_IDENTIFIER } from 'src/constants';
 import { ContainerModule, interfaces } from 'inversify';
 import { IBotConfig, TBotConfig } from 'src/config/bot';
-import { IMatcherConfig, TMatcherConfig } from 'src/config/matcher';
-import { IEchoParserConfig, TEchoParserConfig, ISplitParserConfig, TSplitParserConfig } from 'src/config/parser';
-import { IConnectionProviderConfig, TConnectionProviderConfig } from 'src/config/database';
-import { loadConfig } from 'src/config';
+import { IMatcherConfig, TMatcherConfig } from 'src/config/service/matcher';
+import { IEchoParserConfig, TEchoParserConfig } from 'src/config/service/parser';
+import { ISplitParserConfig, TSplitParserConfig } from 'src/config/service/parser';
+import { IWordFilterConfig, TWordFilterConfig } from 'src/config/service/filter';
+import { IUserFilterConfig, TUserFilterConfig } from 'src/config/service/filter';
+import { IEchoHandlerConfig, TEchoHandlerConfig } from 'src/config/service/handler';
 
 export const configModule = new ContainerModule(
   (bind: interfaces.Bind) => {
-    bind<IConnectionProviderConfig>(CONFIG_IDENTIFIER.IConnectionProviderConfig)
-      .toConstantValue(loadConfig<IConnectionProviderConfig>(TConnectionProviderConfig, 'some/path'));
-
+    console.log(__dirname);
     bind<IBotConfig>(CONFIG_IDENTIFIER.IBotConfig)
-      .toConstantValue(loadConfig<IBotConfig>(TBotConfig, 'some/path'));
+      .toConstantValue(loadConfig<IBotConfig>(TBotConfig, './config/botConfig.yml'));
 
     bind<IMatcherConfig>(CONFIG_IDENTIFIER.IMatcherConfig)
-      .toConstantValue(loadConfig<IMatcherConfig>(TMatcherConfig, 'some/path'));
+      .toConstantValue(loadConfig<IMatcherConfig>(TMatcherConfig, './config/matcherConfig.yml'));
+
+    bind<IWordFilterConfig>(CONFIG_IDENTIFIER.IWordFilterConfig)
+      .toConstantValue(loadConfig<IWordFilterConfig>(TWordFilterConfig, './config/wordFilterConfig.yml'));
+
+    bind<IUserFilterConfig>(CONFIG_IDENTIFIER.IUserFilterConfig)
+      .toConstantValue(loadConfig<IUserFilterConfig>(TUserFilterConfig, './config/userFilterConfig.yml'));
 
     bind<IEchoParserConfig>(CONFIG_IDENTIFIER.IEchoParserConfig)
-      .toConstantValue(loadConfig<IEchoParserConfig>(TEchoParserConfig, 'some/path'));
+      .toConstantValue(loadConfig<IEchoParserConfig>(TEchoParserConfig, './config/echoParserConfig.yml'));
 
     bind<ISplitParserConfig>(CONFIG_IDENTIFIER.ISplitParserConfig)
-      .toConstantValue(loadConfig<ISplitParserConfig>(TSplitParserConfig, 'some/path'));
+      .toConstantValue(loadConfig<ISplitParserConfig>(TSplitParserConfig, './config/splitParserConfig.yml'));
+
+    bind<IEchoHandlerConfig>(CONFIG_IDENTIFIER.IEchoHandlerConfig)
+      .toConstantValue(loadConfig<IEchoHandlerConfig>(TEchoHandlerConfig, './config/echoHandlerConfig.yml'));
   },
 );

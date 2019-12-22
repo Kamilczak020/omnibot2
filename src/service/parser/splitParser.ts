@@ -1,9 +1,9 @@
 import { MessageDTO } from 'src/entity';
-import { IMatchingContext } from 'src/config/matcher';
+import { IMatchingContext } from 'src/config/service/matcher';
 import { IParsingContext } from './parsingContext';
 import { inject, injectable } from 'inversify';
 import { BaseParser, IParser } from './baseParser';
-import { ISplitParserConfig } from 'src/config/parser';
+import { ISplitParserConfig } from 'src/config/service/parser';
 import { CONFIG_IDENTIFIER } from 'src/constants';
 import { ParsingError } from 'src/error';
 
@@ -13,7 +13,7 @@ export type ISplitParser = IParser;
 export class SplitParser extends BaseParser implements ISplitParser {
   protected readonly config: ISplitParserConfig;
 
-  public constructor(@inject(CONFIG_IDENTIFIER.IEchoParserConfig) config: ISplitParserConfig) {
+  public constructor(@inject(CONFIG_IDENTIFIER.ISplitParserConfig) config: ISplitParserConfig) {
     super(config);
   }
 

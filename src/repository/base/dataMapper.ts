@@ -1,6 +1,4 @@
-import { DomainEntity } from 'src/entity';
-
-export interface IEntityDataMapper<Domain extends DomainEntity<Entity>, Entity> {
+export interface IEntityDataMapper<Domain, Entity> {
   toDomain(entity: Entity): Domain;
   toEntity(domain: Domain): Entity;
 }
