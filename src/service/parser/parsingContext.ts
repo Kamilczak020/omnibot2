@@ -1,4 +1,4 @@
 export interface IParsingContext {
   handler: string;
-  parsedMessage: Array<string>;
+  parsedMessage: Array<String>;
 }

@@ -1,21 +1,26 @@
-import { MessageDTO } from 'src/entity';
-import { IMatchingContext } from 'src/config/service/matcher';
+import { MessageDTO, MatchedDTO, ParsedDTO } from 'src/entity';
 import { IBaseParserConfig } from 'src/config/service/parser';
 import { IService, BaseService } from 'src/service/base';
 import { IParsingContext } from './parsingContext';
 import { injectable, unmanaged } from 'inversify';
+import { IParsedRepository } from 'src/repository/parsed';
 
 export interface IParser extends IService {
-  parse(message: MessageDTO, context: IMatchingContext): [MessageDTO, IParsingContext];
+  parse(matched: MatchedDTO): Promise<ParsedDTO>;
 }
 
 @injectable()
 export abstract class BaseParser extends BaseService implements IParser {
   protected config: IBaseParserConfig;
+  protected repository: IParsedRepository;
 
-  public constructor(@unmanaged() config: IBaseParserConfig) {
+  public constructor(
+    @unmanaged() config: IBaseParserConfig,
+    @unmanaged() repository: IParsedRepository,
+  ) {
     super(config);
+    this.repository = repository;
   }
 
-  public abstract parse(message: MessageDTO, context: IMatchingContext): [MessageDTO, IParsingContext];
+  public async abstract parse(matched: MatchedDTO): Promise<ParsedDTO>;
 }
