@@ -1,5 +1,5 @@
 import { injectable, inject } from 'inversify';
-import { MessageDTO } from 'src/entity';
+import { MessageDTO, ParsedDTO } from 'src/entity';
 import { IParsingContext } from 'src/service/parser';
 import { IEchoHandlerConfig } from 'src/config/service/handler';
 import { IHandler, BaseHandler } from './baseHandler';
@@ -16,13 +16,13 @@ export class EchoHandler extends BaseHandler implements IEchoHandler {
     super(config);
   }
 
-  public async handle(message: MessageDTO, context: IParsingContext): Promise<[MessageDTO, IHandlingContext]> {
+  public async handle(parsed: ParsedDTO): Promise<[MessageDTO, IHandlingContext]> {
     const handlingContext = {
       color: this.config.color,
       title: 'Echo result',
-      description: context.parsedMessage.join(' '),
+      description: parsed.parsedMessage.join(' '),
     };
 
-    return [message, handlingContext];
+    return [parsed.message, handlingContext];
   }
 }
