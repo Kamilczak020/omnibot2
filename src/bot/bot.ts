@@ -4,11 +4,10 @@ import { inject, injectable, multiInject } from 'inversify';
 import { IBotConfig } from 'src/config/bot';
 import { ILogger } from 'src/logger';
 import { Subject } from 'rxjs';
-import { MessageDTO } from 'src/entity';
+import { MessageDTO, MatchedDTO, ParsedDTO } from 'src/entity';
 import { IFilter } from 'src/service/filter/baseFilter';
 import { IMatcher } from 'src/service/matcher';
 import { IParser, IParsingContext } from 'src/service/parser';
-import { IMatchingContext } from 'src/config/service/matcher';
 import { isNil } from 'src/util';
 import { IHandler } from 'src/service/handler';
 import { IHandlingContext } from 'src/service/handler/handlingContext';
@@ -21,19 +20,19 @@ export interface IBot {
 
 @injectable()
 export class Bot implements IBot {
-  private logger: ILogger;
+  private readonly logger: ILogger;
   private readonly config: IBotConfig;
-  private clientController: IClientController;
+  private readonly clientController: IClientController;
 
-  private matcher: IMatcher;
-  private filters: Array<IFilter>;
-  private parsers: Array<IParser>;
-  private handlers: Array<IHandler>;
+  private readonly matcher: IMatcher;
+  private readonly filters: Array<IFilter>;
+  private readonly parsers: Array<IParser>;
+  private readonly handlers: Array<IHandler>;
 
-  private incoming: Subject<MessageDTO>;
-  private matched: Subject<[MessageDTO, IMatchingContext]>;
-  private parsed: Subject<[MessageDTO, IParsingContext]>;
-  private outgoing: Subject<[MessageDTO, IHandlingContext]>;
+  private readonly incoming: Subject<MessageDTO>;
+  private readonly matched: Subject<MatchedDTO>;
+  private readonly parsed: Subject<ParsedDTO>;
+  private readonly outgoing: Subject<[MessageDTO, IHandlingContext]>;
 
   public constructor(
     @inject(SERVICE_IDENTIFIER.ILogger) logger: ILogger,
@@ -105,16 +104,15 @@ export class Bot implements IBot {
   private async handleIncoming(message: MessageDTO): Promise<void> {
     this.logger.debug(`Incoming message: "${message.body}"`);
     const filterResults = await Promise.all(this.filters.map((filterService) => filterService.filter(message)));
-    if (filterResults.reduce((prev, next) => prev || next) === true) {
+    if (filterResults.reduce((prev, next) => prev || next)) {
       this.logger.debug(`Message has been filtered: "${message.body}"`);
       return;
     }
 
     try {
-      const matchResult = this.matcher.match(message);
-      const [, matchingContext] = matchResult;
+      const matchResult = await this.matcher.match(message);
       this.matched.next(matchResult);
-      this.logger.debug(`Message has been matched with: ${matchingContext.handler}, ${matchingContext.parser}`);
+      this.logger.debug(`Message has been matched with: ${matchResult.parser}, ${matchResult.handler}`);
     } catch (error) {
       this.logger.info('Message was not matched.');
     }
@@ -125,19 +123,17 @@ export class Bot implements IBot {
    * then tries to parse the message.
    * @param data tuple of messageDTO and a matching context
    */
-  private async handleMatched(data: [MessageDTO, IMatchingContext]): Promise<void> {
-    const [message, context] = data;
-    const parser = this.getParserByName(context.parser);
+  private async handleMatched(data: MatchedDTO): Promise<void> {
+    const parser = this.getParserByName(data.parser);
     if (isNil(parser)) {
-      this.logger.error(`Could not find parser with the given name: ${context.parser}`);
+      this.logger.error(`Could not find parser with the given name: ${data.parser}`);
       return;
     }
 
     try {
-      const parsingResult = parser.parse(message, context);
-      const [, parsingContext] = parsingResult;
+      const parsingResult = await parser.parse(data);
       this.parsed.next(parsingResult);
-      this.logger.debug(`Message has been parsed: ${parsingContext.parsedMessage}`);
+      this.logger.debug(`Message has been parsed: ${parsingResult.parsedMessage}`);
     } catch (error) {
       this.logger.error(`Parser could not parse message: ${error}`);
     }
@@ -148,16 +144,15 @@ export class Bot implements IBot {
    * then tries to handle the message accordingly.
    * @param data tuple of messageDTO and a parsing context
    */
-  private async handleParsed(data: [MessageDTO, IParsingContext]): Promise<void> {
-    const [message, context] = data;
-    const handler = this.getHandlerByName(context.handler);
+  private async handleParsed(data: ParsedDTO): Promise<void> {
+    const handler = this.getHandlerByName(data.handler);
     if (isNil(handler)) {
-      this.logger.error(`Could not find handler with the given name: ${context.handler}`);
+      this.logger.error(`Could not find handler with the given name: ${data.handler}`);
       return;
     }
 
     try {
-      const handlingResult = await handler.handle(message, context);
+      const handlingResult = await handler.handle(data);
       const [, handlingContext] = handlingResult;
       this.outgoing.next(handlingResult);
       this.logger.debug(`Message has been handled: ${handlingContext.description}`);
