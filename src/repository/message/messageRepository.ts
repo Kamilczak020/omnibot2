@@ -26,7 +26,7 @@ export class MessageRepository
       const entities = await this._repository.find({ where: { author } });
       return entities.map((e) => this._dataMapper.toDomain(e));
     } catch (error) {
-      throw new DatabaseError('Error while getting entities from the database.');
+      throw new DatabaseError('[MessageRepository] Error while getting entities from the database.');
     }
   }
 }
