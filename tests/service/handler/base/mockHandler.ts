@@ -1,4 +1,4 @@
-import { MessageDTO } from 'src/entity';
+import { MessageDTO, ParsedDTO } from 'src/entity';
 import { IParsingContext } from 'src/service/parser';
 import { IMockHandlerConfig } from './mockConfig';
 import { IHandler, BaseHandler } from 'src/service/handler';
@@ -13,13 +13,13 @@ export class MockHandler extends BaseHandler implements IMockHandler {
     super(config);
   }
 
-  public async handle(message: MessageDTO, context: IParsingContext): Promise<[MessageDTO, IHandlingContext]> {
+  public async handle(parsed: ParsedDTO): Promise<[MessageDTO, IHandlingContext]> {
     const handlingContext = {
       color: this.config.color,
       title: 'Mock result',
-      description: context.parsedMessage.join(),
+      description: parsed.parsedMessage.join(),
     };
 
-    return [message, handlingContext];
+    return [parsed.message, handlingContext];
   }
 }

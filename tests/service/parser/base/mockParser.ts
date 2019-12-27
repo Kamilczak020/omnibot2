@@ -1,18 +1,25 @@
-import { MessageDTO } from 'src/entity';
-import { IMatchingContext } from 'src/config/service/matcher';
+import { MessageDTO, MatchedDTO, ParsedDTO } from 'src/entity';
 import { IParser, BaseParser, IParsingContext } from 'src/service/parser';
 import { IMockParserConfig } from './mockConfig';
+import { IParsedRepository } from 'src/repository/parsed';
 
 export type IMockParser = IParser;
 
 export class MockParser extends BaseParser implements IMockParser {
   protected readonly config: IMockParserConfig;
 
-  public constructor(config: IMockParserConfig) {
-    super(config);
+  public constructor(config: IMockParserConfig, repository: IParsedRepository) {
+    super(config, repository);
   }
 
-  public parse(message: MessageDTO, context: IMatchingContext): [MessageDTO, IParsingContext] {
-    return [message, { handler: context.handler, parsedMessage: ['test'] }];
+  public async parse(matched: MatchedDTO): Promise<ParsedDTO> {
+    const parsedDTO = {
+      id: undefined,
+      handler: matched.handler,
+      parsedMessage: ['test'],
+      message: matched.message,
+    };
+
+    return parsedDTO;
   }
 }
