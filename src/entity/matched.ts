@@ -1,32 +1,32 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
-import { FilterReason } from 'src/service/filter';
 import { MessageEntity, MessageDTO } from './message';
 
-export interface FilteredMessageDTO {
+export interface MatchedDTO {
   id: string;
-  reason: FilterReason;
+  parser: string;
+  handler: string;
   message: MessageDTO;
 }
 
-@Entity({ name: 'FilteredMessage' })
-export class FilteredMessageEntity {
+@Entity({ name: 'Matched' })
+export class MatchedEntity {
   @PrimaryGeneratedColumn('uuid')
   public id: string;
 
-  @Column({
-    type: 'enum',
-    enum: FilterReason,
-    default: FilterReason.Unknown,
-  })
-  public reason: FilterReason;
+  @Column()
+  public parser: string;
+
+  @Column()
+  public handler: string;
 
   @OneToOne(() => MessageEntity)
   @JoinColumn()
   public message: MessageEntity;
 
-  public constructor(properties?: FilteredMessageDTO) {
+  public constructor(properties?: MatchedDTO) {
     this.id = properties?.id;
-    this.reason = properties?.reason;
+    this.parser = properties?.parser;
+    this.handler = properties?.handler;
     this.message = new MessageEntity(properties.message);
   }
 }

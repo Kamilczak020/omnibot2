@@ -1,2 +1,4 @@
 export * from './message';
-export * from './filteredMessage';
+export * from './filtered';
+export * from './matched';
+export * from './parsed';
