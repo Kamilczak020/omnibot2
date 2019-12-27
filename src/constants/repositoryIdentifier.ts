@@ -1,6 +1,12 @@
 export const REPOSITORY_IDENTIFIER = {
   TypeOrmMessageRepository: Symbol.for('TypeOrmMessageRepository'),
-  TypeOrmFilteredMessageRepository: Symbol.for('TypeOrmFilteredMessageRepository'),
+  TypeOrmFilteredRepository: Symbol.for('TypeOrmFilteredMessageRepository'),
+  TypeOrmMatchedRepository: Symbol.for('TypeOrmMatchedRepository'),
+  TypeOrmParsedRepository: Symbol.for('TypeOrmParsedRepository'),
+  TypeOrmHandledRepository: Symbol.for('TypeOrmHandledRepository'),
   IMessageRepository: Symbol.for('IMessageRepository'),
-  IFilteredMessageRepository: Symbol.for('IFilteredMessageRepository'),
+  IFilteredRepository: Symbol.for('IFilteredMessageRepository'),
+  IMatchedRepository: Symbol.for('IMatchedRepository'),
+  IParsedRepository: Symbol.for('IParsedRepository'),
+  IHandledRepository: Symbol.for('IHandledRepository'),
 };
